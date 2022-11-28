@@ -7,7 +7,7 @@ from scipy import signal
 num_kps = 17
 input_size = 256
 
-interpreter = tf.lite.Interpreter(model_path="model.tflite")
+interpreter = tf.lite.Interpreter(model_path="thunder_model.tflite")
 interpreter.allocate_tensors()
 
 COLORS= {
