@@ -212,10 +212,10 @@ def main(path, lpf):
         #--------- CODE TO CALCULATE ANGLES ------
 
         #CALCULATE LEFT SHOULDER ANGLE
-        left_shoulder_angle = calculate_angle_v2(curr_kp[8],curr_kp[10],curr_kp[6])
+        left_shoulder_angle = calculate_angle(curr_kp[9],curr_kp[7],curr_kp[5])
         #print(str(left_shoulder_angle))
         #CALCULATE RIGHT SHOULDER ANGLE
-        right_shoulder_angle = calculate_angle_v2(curr_kp[7],curr_kp[9],curr_kp[5])
+        right_shoulder_angle = calculate_angle(curr_kp[10],curr_kp[8],curr_kp[6])
 
 
 
