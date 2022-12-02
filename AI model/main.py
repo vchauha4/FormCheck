@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import tensorflow as tf
 from scipy import signal
+import matplotlib.pyplot as plt
+import numpy as np
 
 # TFLite interpreter
 num_kps = 17
@@ -10,6 +12,10 @@ input_size = 256
 interpreter = tf.lite.Interpreter(model_path="thunder_model.tflite")
 interpreter.allocate_tensors()
 
+
+switch = 0
+dataAngles = [[[],[]],[[],[]]]
+counter  =0
 COLORS= {
     'm': (62, 74, 179),
     'c': (3, 4, 5),
@@ -114,14 +120,22 @@ def movenet(input_image):
 
     # Get the model prediction.
     keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
-    print("PoseNetData")
-
-    print(keypoints_with_scores[0][0][5])
-    print(keypoints_with_scores[0][0][7])
-    print(keypoints_with_scores[0][0][9])
-
-    print(calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0][0][9]))
     
+    
+    dataAngles[1][switch].append(calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0][0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10]))
+    
+    #dataAngles[0][switch].append(keypoints_with_scores[0][0][9][1])
+    
+
+    #else:
+    #    print(keypoints_with_scores[0][0][9][2]+"*******************")
+    #print(keypoints_with_scores[0][0][5])
+    #print(keypoints_with_scores[0][0][7])
+    #print(keypoints_with_scores[0][0][9])
+
+    #print(calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0][0][9]))
+    #print(dataAngles)
+
     return keypoints_with_scores
 
 def pad(image, width, height):
@@ -207,7 +221,7 @@ def main(vidPath):
     fourcc = cv2.VideoWriter_fourcc(*'MP4V')
     video_writer = cv2.VideoWriter(fname, fourcc, fps, size)
 
- 
+    
 
     while True:
         ret, frame = cap.read()
@@ -232,6 +246,25 @@ def main(vidPath):
     cap.release()
     cv2.destroyAllWindows()
 
-vidPath='Y2Mate.is - NFL Combine Bench Press Compilation!!!!!-vIsQ15POK7Q-720p-1655143445064.mp4'
+vidPath='IMG_6979-00.00.27.495-00.00.28.872.mp4'
 
+vidpath1 = 'untitled.mp4'
 main(vidPath)
+dataAngles[0][switch].append(list(range(0, len(dataAngles[1][switch]))))
+switch = 1
+
+main(vidpath1)
+
+ratio = len(dataAngles[1][0])/len(dataAngles[1][1])
+
+dataAngles[0][switch].append(list(range(0, len(dataAngles[1][switch]))))
+
+print(dataAngles)
+
+for i in range (0,len(dataAngles[1][1])):
+    dataAngles[0][1][0][i] = dataAngles[0][1][0][i]*ratio
+    print(dataAngles[1][1][i])
+
+plt.scatter(dataAngles[0][0],dataAngles[1][0])
+plt.scatter(dataAngles[0][1],dataAngles[1][1])
+plt.show()
