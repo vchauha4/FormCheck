@@ -4,6 +4,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'ExerciseDetails.dart';
 import 'appbarclipper.dart';
 
 /*
@@ -152,6 +153,8 @@ pageData(context,index){
         SizedBox(height: 1,),
 
         playlistGrid(),
+
+
         SizedBox(height: 10,),
         Row(children: [
           Text('   Information',  textAlign: TextAlign.start,style: TextStyle(fontSize: 28,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
@@ -178,6 +181,8 @@ pageData(context,index){
 }
 playlistGrid() {
 
+List images=["Assets/Intermediate-bench-press-program.jpg","Assets/img.jpg","Assets/img_1.jpg"];
+List text=['Bench Press','Dead Lift','Squats'];
 
   return  Container(
       height: 195,
@@ -202,16 +207,16 @@ playlistGrid() {
         color: Colors.grey[900],//Colors.grey[850]?.withOpacity(0.5),
         child:InkWell(
           splashColor: Colors.red[900],
-          borderRadius: BorderRadius.circular(25),
+          borderRadius: BorderRadius.circular(50),
 
           onTap: (){
-            // Navigator.push(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => Lists(folderName:PlaylistsFolders[count].toString()),// make list take a parameter for the folder
-            //   ),
-            // );
-            // print("Clicked "+count.toString());
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Exercises(),// make list take a parameter for the folder
+              ),
+            );
+             print("Clicked ");
           },
 
           child:Container(
@@ -234,7 +239,7 @@ playlistGrid() {
 
                   Container(
 
-                    child: Image.asset("Assets/Intermediate-bench-press-program.jpg",
+                    child: Image.asset(images[index],
                       fit: BoxFit.fitWidth,
                       height: 130,
                       width: 240,
@@ -255,7 +260,7 @@ playlistGrid() {
 
                       children: <Widget>[
                         Text(
-                          'Bench Press',
+                            text[index],
                             style: TextStyle(fontSize: 19,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                             overflow: TextOverflow.ellipsis,
                             textAlign: TextAlign.center
