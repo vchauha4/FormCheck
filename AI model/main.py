@@ -218,8 +218,8 @@ def main(vidPath):
 
     ## Writing the video with keypoints
     size = (input_size * 2, input_size * 2)
-    fourcc = cv2.VideoWriter_fourcc(*'MP4V')
-    video_writer = cv2.VideoWriter(fname, fourcc, fps, size)
+    #fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+    #video_writer = cv2.VideoWriter(fname, fourcc, fps, size)
 
     
 
@@ -231,13 +231,13 @@ def main(vidPath):
         curr_kp, image = get_inference(frame)
 
 
-        output = draw_pose(image, curr_kp)
-        output = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)
-        outimage = np.asarray(output, dtype=np.uint8)
-        outimage = cv2.resize(outimage, size)
+        # output = draw_pose(image, curr_kp)
+        # output = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)
+        # outimage = np.asarray(output, dtype=np.uint8)
+        # outimage = cv2.resize(outimage, size)
 
-        video_writer.write(outimage)
-        cv2.imshow("frame", outimage)
+        #video_writer.write(outimage)
+        #cv2.imshow("frame", outimage)
 
         k = cv2.waitKey(1)
         if k == ord('q') or k == 27:
