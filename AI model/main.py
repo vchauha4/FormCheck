@@ -250,6 +250,7 @@ vidPath='IMG_6979-00.00.27.495-00.00.28.872.mp4'
 
 vidpath1 = 'untitled.mp4'
 main(vidPath)
+
 dataAngles[0][switch].append(list(range(0, len(dataAngles[1][switch]))))
 switch = 1
 
@@ -259,12 +260,33 @@ ratio = len(dataAngles[1][0])/len(dataAngles[1][1])
 
 dataAngles[0][switch].append(list(range(0, len(dataAngles[1][switch]))))
 
-print(dataAngles)
+#print(dataAngles)
 
 for i in range (0,len(dataAngles[1][1])):
     dataAngles[0][1][0][i] = dataAngles[0][1][0][i]*ratio
-    print(dataAngles[1][1][i])
+    #print(dataAngles[1][1][i])
+
+#dataAngles[0][0][0] all the x coordinates of the first vid
+#dataAngles[1][0] all the y coordinates of the first vid
+import numpy as np
+import pandas as pd
+print(dataAngles[1][0])
+
+combinedFirstVidTo2darray=list(zip(dataAngles[0][0][0], dataAngles[1][0]))
+
+numArray=np.array(combinedFirstVidTo2darray, dtype=object)
+
+print(dataAngles[1][0][0])
+# print(combinedFirstVidTo2darray)
+df = pd.DataFrame(combinedFirstVidTo2darray)#.stack().rename_axis(['x', 'y'])#.reset_index(name='val')
+
+print(df)
+df.to_csv("./courses.csv")
+
 
 plt.scatter(dataAngles[0][0],dataAngles[1][0])
 plt.scatter(dataAngles[0][1],dataAngles[1][1])
 plt.show()
+
+
+#reference is first vid, and keep ration for all of em 
