@@ -37,7 +37,7 @@ class _CameraPageState extends State<CameraPage> {
 
     cameraController = CameraController(front, ResolutionPreset.max);
     await cameraController.initialize();
-    setState(() => isLoading = false)
+    setState(() => isLoading = false);
 
 
   }

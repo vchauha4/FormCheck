@@ -79,12 +79,16 @@ from sklearn.model_selection import cross_val_score
 rf = RandomForestRegressor(n_estimators=100, max_depth=6,
                            min_samples_split=28, random_state=3)
 
-rf.fit(x_train_data, y_train)
+rf.fit(x_train_data2, y_train2)
 
 pred_y_data = rf.predict(x_test_data)
 pred_y_data2 = rf.predict(x_test_data2)
 
+plt.scatter(x_train_data2,y_train2)
 plt.scatter(x_train_data,y_train)
+
+plt.scatter(x_test_data,pred_y_data)
+
 plt.scatter(x_test_data2,pred_y_data2)
 
 

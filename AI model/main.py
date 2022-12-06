@@ -322,7 +322,6 @@ for num in range(NumOfVids):
 
 
 
-
 #combinedFirstVidTo2darray=list(zip(dataAngles[0][0][0], dataAngles[1][0]))#HERE for first vid only 
 combinedFirstVidTo2darray=list(zip(array0, array1))#HERE for first vid only 
 numArray=np.array(combinedFirstVidTo2darray, dtype=object)

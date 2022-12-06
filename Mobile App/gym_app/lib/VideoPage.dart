@@ -86,7 +86,7 @@ class _VideoPageState extends State<VideoPage> {
           }
           else {
 
-            return VideoPlayer(videoPlayerController)
+            return VideoPlayer(videoPlayerController);
 
           }
         },

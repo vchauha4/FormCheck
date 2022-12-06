@@ -204,67 +204,90 @@
 #   ideal_formula = model(frames, angles)
 #   score = 0
 
+""""
 
-# Import the necessary TensorFlow modules
-import tensorflow as tf
 
-# Load the data from the CSV file
-data = tf.convert_to_tensor('./courses.csv', dtype=tf.float32)
+"""
+import pandas as pd
 
-# Define the non-linear model
-class NonLinearModel(tf.keras.Model):
-    def __init__(self):
-        super(NonLinearModel, self).__init__()
-        # Define the layers of the model, such as dense layers and non-linear activation functions
-        self.fc1 = tf.keras.layers.Dense(units=16, input_shape=(2,))
-        self.fc2 = tf.keras.layers.Dense(units=32)
-        self.fc3 = tf.keras.layers.Dense(units=64)
-        self.fc4 = tf.keras.layers.Dense(units=1)
-        self.relu = tf.keras.layers.ReLU()
+data = pd.read_csv('./courses.csv')
+videos = []
+temp = []
+for x in range(0,len(data)):
+    temp.append(data['Angles'][x])
 
-    def call(self, x):
-        # Define the forward pass of the model, which takes the input tensor and produces a prediction
-        x = self.fc1(x)
-        x = self.relu(x)
-        x = self.fc2(x)
-        x = self.relu(x)
-        x = self.fc3(x)
-        x = self.relu(x)
-        x = self.fc4(x)
-        return x
+    if(data['Frames'][x] == 0):
+        videos.append(temp)
+        temp = []
+        print(data['Angles'][x])
+print(temp)
+print(videos)
 
-# Create the non-linear model instance
-model = NonLinearModel()
 
-# Define the optimizer for the model
-optimizer = tf.keras.optimizers.Adam()
+# # Import the necessary TensorFlow modules
+# import tensorflow as tf
 
-# Define the loss function for the model
-loss_fn = tf.keras.losses.MeanSquaredError()
+# # Load the data from the CSV file
+# data = tf.convert_to_tensor('./courses.csv')
+# print(data.shape)
 
-# Train the model by looping through the training data
-for epoch in range(120):
-    for frame_rate, angle in data:
-        # Forward pass
-        with tf.GradientTape() as tape:
-            predictions = model(frame_rate)
 
-            # Compute the loss
-            loss = loss_fn(predictions, angle)
+# # Define the non-linear model
+# class NonLinearModel(tf.keras.Model):
+#     def __init__(self):
+#         super(NonLinearModel, self).__init__()
+#         # Define the layers of the model, such as dense layers and non-linear activation functions
+#         self.fc1 = tf.keras.layers.Dense(units=16, input_shape=(2,))
+#         self.fc2 = tf.keras.layers.Dense(units=32)
+#         self.fc3 = tf.keras.layers.Dense(units=64)
+#         self.fc4 = tf.keras.layers.Dense(units=1)
+#         self.relu = tf.keras.layers.ReLU()
 
-        # Backward pass
-        gradients = tape.gradient(loss, model.trainable_variables)
+#     def call(self, x):
+#         # Define the forward pass of the model, which takes the input tensor and produces a prediction
+#         x = self.fc1(x)
+#         x = self.relu(x)
+#         x = self.fc2(x)
+#         x = self.relu(x)
+#         x = self.fc3(x)
+#         x = self.relu(x)
+#         x = self.fc4(x)
+#         return x
 
-        # Update the model parameters
-        optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+# # Create the non-linear model instance
+# model = NonLinearModel()
 
-# Evaluate the performance of the trained model
-for frame_rate, angle in validationData:
-    # Make predictions on the validation data
-    predictions = model(frame_rate)
+# # Define the optimizer for the model
+# optimizer = tf.keras.optimizers.Adam()
 
-    # Compute the loss
-    loss = loss_fn(predictions, angle)
+# # Define the loss function for the model
+# loss_fn = tf.keras.losses.MeanSquaredError()
 
-    # Print the loss
-    print(loss)
+# # Train the model by looping through the training data
+# for epoch in range(120):
+#     for frame_rate, angle in data:
+#         # Forward pass
+#         with tf.GradientTape() as tape:
+#             predictions = model(frame_rate)
+
+#             # Compute the loss
+#             loss = loss_fn(predictions, angle)
+
+#         # Backward pass
+#         gradients = tape.gradient(loss, model.trainable_variables)
+
+#         # Update the model parameters
+#         optimizer.apply_gradients(zip(gradients, model.trainable_variables))
+
+# # Evaluate the performance of the trained model
+# for frame_rate, angle in validationData:
+#     # Make predictions on the validation data
+#     predictions = model(frame_rate)
+
+#     # Compute the loss
+#     loss = loss_fn(predictions, angle)
+
+#     # Print the loss
+#     print(loss)
+
+
