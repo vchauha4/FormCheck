@@ -171,14 +171,14 @@ class _ExercisesState extends State<Exercises> {
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')),
+                          image: FileImage(File('/storage/emulated/0/AudioFiles/Benchvid2.gif')),
                           fit: BoxFit.cover,
 
                         ),
                         borderRadius:  BorderRadius.all(Radius.circular(15.0)),
                       ),
                       alignment: Alignment.center,
-                      width: 350,
+                      width: 380,
                       height: 380,
                     ),
                   ),//Size
