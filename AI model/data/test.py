@@ -52,21 +52,29 @@ from sklearn.model_selection import RandomizedSearchCV
 
 model = RandomForestRegressor()
 
+'''
+#Used to find best parameters {'min_samples_split': 28, 'max_depth': 6}
 rs = RandomizedSearchCV(model, n_iter=10,
                         param_distributions = {'max_depth': range(1, 15),
                                                'min_samples_split': range(2, 50)},
                         cv=5, n_jobs=-1, random_state=3,
                         scoring='neg_mean_squared_error')
 
-rs.fit(x_train_data, y_train)
+#print(rs.best_params_)
+'''
 
-pred_y_data = rs.predict(x_test_data)
+rf = RandomForestRegressor(n_estimators=100, max_depth=6,
+                           min_samples_split=28, random_state=1)
+
+rf.fit(x_train_data, y_train)
+
+pred_y_data = rf.predict(x_test_data)
 
 plt.scatter(x_train_data,y_train)
 plt.scatter(x_test_data,pred_y_data)
 #print(rs.score(x_test_data,pred_y_data))
-print(mean_absolute_error(y_test, pred_y_data))
+#print(mean_absolute_error(y_test, pred_y_data))
 #print(accuracy_score(y_test,pred_y_data))
-#print(rs.best_params_)
+
 #print(-rs.best_score_)
 plt.show()
