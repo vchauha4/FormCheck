@@ -11,6 +11,7 @@ from sklearn import metrics
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import mean_absolute_error
+import joblib
 
 
 
@@ -91,7 +92,21 @@ rf = RandomForestRegressor(n_estimators=100, max_depth=6,
 # print(X_train)
 rf.fit(X_train, y_train)
 
-pred_y_data = rf.predict(X_test)
+joblib.dump(rf, 'model.joblib')
+
+'''
+#Getting one random test video
+dfv2=pd.read_csv("wrongonevidv2.csv")
+print(dfv2.head())
+
+wrongarrayX= dfv2[['Frames', 'Angles']].values
+wronglabel=dfv2['label']
+
+
+pred_y_data = rf.predict(wrongarrayX)
+
+
+
 # pred_y_data2 = rf.predict(x_test_data2)
 
 #plt.scatter(X_train, y_train)
@@ -101,26 +116,46 @@ pred_y_data = rf.predict(X_test)
 
 # plt.scatter(X_test,pred_y_data)
 print(pred_y_data.shape)
-print(X_test.shape)
+print(wronglabel.shape)
 
 # plt.scatter(X_test,pred_y_data)
+'''
 
+
+'''
 print('Training Features Shape:', X_train.shape)
 print('Training Labels Shape:', X_test.shape)
 print('Testing Features Shape:', y_train.shape)
 print('Testing Labels Shape:', y_test.shape)
 
-errors = abs(pred_y_data - y_test)
+
+def avg_of_top_n(l, n):
+    return sum(sorted(l)[-n:]) / n
+l = [2, 2, 3, 5, 6, 7, 5, 4, 5, 5]
+for i in range(5, 10):
+    print(avg_of_top_n(l[i - 4: i], 2))
+    #print(max(pred_y_data))
+for i in range(5, 10):
+    print(avg_of_top_n(pred_y_data[i - 4: i], 2))
+    '''
+
+
+'''
+sort_y_data = sorted(pred_y_data)
+print(sort_y_data[-10:])
+print(np.mean(sort_y_data[-10:]))
+#print(wronglabel)
+errors = abs(pred_y_data - wronglabel)
 print('Mean Absolute Error:', round(np.mean(errors), 2), 'degrees.')
 
 
-scores = cross_val_score(estimator=rf, X=X_test, y=pred_y_data, cv=10,)
-print(scores)
+#scores = cross_val_score(estimator=rf, X=X_test, y=pred_y_data, cv=10,)
+#print(scores)
 
-print(rf.score(X_test,pred_y_data))
+#print(rf.score(X_test,pred_y_data))
 #print(mean_absolute_error(y_test, pred_y_data))
 #print(accuracy_score(y_test,pred_y_data))
 
 #print(-rs.best_score_)
 plt.show()
-
+'''
