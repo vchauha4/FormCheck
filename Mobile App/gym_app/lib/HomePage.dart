@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
           ),
 
           BottomNavigationBarItem(
-            backgroundColor: Colors.green,
+            backgroundColor: Color(0xFF212121),
             label: "My Workouts",
 
             icon: Icon(
