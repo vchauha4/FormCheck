@@ -241,9 +241,9 @@ playlistGrid(context) {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 15, vertical: appPadding / 2),
                   child: Container(
-                    height: size.height * 0.229,
+                    height: size.height * 0.24,
                     decoration: BoxDecoration(
-                        color: Colors.black12,
+                        color: Colors.grey[850],
                         borderRadius: BorderRadius.circular(28.0),
                         boxShadow: [
                           BoxShadow(
@@ -252,7 +252,7 @@ playlistGrid(context) {
                               offset: Offset(10, 15))
                         ]),
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 4, 3, 4),
+                      padding: const EdgeInsets.fromLTRB(5, 2, 3, 1),
                       child: Column(
                         children: [
                           Row(
@@ -260,7 +260,7 @@ playlistGrid(context) {
 
 
                               Container(
-                                width: size.width * 0.89,
+                                width: size.width * 0.9,
                                 height: size.height*.185,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(20.0),
@@ -308,7 +308,7 @@ playlistGrid(context) {
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(text[index],  textAlign: TextAlign.start,style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
+                                      Text(text[index],  textAlign: TextAlign.start,style: TextStyle(fontSize: 24,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
 
 
                                     ],
