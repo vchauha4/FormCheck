@@ -171,9 +171,13 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
 
-      Text(
-        'My Workout Page',
-      ),
+    Column(
+    children: [
+    customAppBar(context),
+    SizedBox(height: 25,),
+    infoPage(context)
+      ]
+    )
 
     ];
 
@@ -184,6 +188,166 @@ class _HomePageState extends State<HomePage> {
 
 
 }
+
+infoPage(context){
+
+  Size size = MediaQuery.of(context).size;
+  List images=["Assets/Intermediate-bench-press-program.jpg","Assets/img.jpg","Assets/img_1.jpg","Assets/Intermediate-bench-press-program.jpg","Assets/Intermediate-bench-press-program.jpg",];
+  List text=['Bench Press','Dead Lift','Squats','Bench Press','Bench Press',];
+
+  return Container(
+    // color: Colors.blueGrey,
+    child: Expanded(
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+          children: [
+
+      Padding(
+
+      padding: const EdgeInsets.symmetric(
+          horizontal: 10,
+          vertical: 2
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+              child: new Text('Below we provide information and details on how to correctly perform the available workout exercises:',  textAlign: TextAlign.start,style: TextStyle(fontSize: 24,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
+          ),
+
+
+          //Text('See All',  textAlign: TextAlign.start,style: TextStyle(fontSize: 18,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
+
+        ],
+      ),
+    ),
+
+
+
+      Expanded(
+      child: ListView.builder(
+      physics: BouncingScrollPhysics(),
+
+  shrinkWrap: true,
+  itemCount: 5,
+  itemBuilder: (BuildContext context, int index) {
+
+  return Padding(
+  padding: const EdgeInsets.symmetric(
+  horizontal: 15, vertical:  10),
+  child: InkWell(
+  splashColor: Colors.red[900],
+  borderRadius: BorderRadius.circular(50),
+
+  onTap: (){
+  Navigator.push(
+  context,
+  MaterialPageRoute(
+  builder: (context) => Exercises(),// make list take a parameter for the folder
+  ),
+  );
+  print("Clicked ");
+  },
+  child: Container(
+  height: size.height * 0.24,
+  decoration: BoxDecoration(
+  color: Colors.grey[850],
+  borderRadius: BorderRadius.circular(28.0),
+  boxShadow: [
+  BoxShadow(
+  color: Colors.black.withOpacity(0.3),
+  blurRadius: 28.0,
+  offset: Offset(10, 15))
+  ]),
+  child: Padding(
+  padding: const EdgeInsets.fromLTRB(5, 2, 3, 1),
+  child: Column(
+  children: [
+  Row(
+  children: [
+
+
+  Container(
+  width: size.width * 0.9,
+  height: size.height*.185,
+  child: ClipRRect(
+  borderRadius: BorderRadius.circular(20.0),
+  child: Image(
+  image: AssetImage(images[index]),
+  fit: BoxFit.cover,
+  ),
+  ),
+  ),
+  //
+  // Container(
+  //   width: size.width * 0.3,
+  //   child: Padding(
+  //     padding: const EdgeInsets.only(
+  //         left: appPadding / 2, top: appPadding / 1.5),
+  //     child: Column(
+  //       crossAxisAlignment: CrossAxisAlignment.start,
+  //       children: [
+  //         Text(
+  //           text[index],
+  //           style: TextStyle(
+  //             color: Colors.blue,
+  //             fontWeight: FontWeight.bold,
+  //             fontSize: 16,
+  //           ),
+  //           maxLines: 2,
+  //         ),
+  //
+  //       ],
+  //     ),
+  //   ),
+  // ),
+  ],
+  ),
+  SizedBox(height: 2,),
+
+  Row(
+  children: [
+  SizedBox(
+
+  width: size.width * 0.7,
+  child: Padding(
+  padding: const EdgeInsets.only(
+  left: 15, ),
+  child: Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+  Text(text[index],  textAlign: TextAlign.start,style: TextStyle(fontSize: 24,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
+
+
+  ],
+  ),
+  ),
+  ),
+  ],
+  ),
+
+  ],
+  ),
+  ),
+  ),
+  ),
+  );
+
+
+
+  },
+
+
+  )
+  ),
+
+    ])),
+  );
+
+}
+
+
 playlistGrid(context) {
 
   List images=["Assets/Intermediate-bench-press-program.jpg","Assets/img.jpg","Assets/img_1.jpg","Assets/Intermediate-bench-press-program.jpg","Assets/Intermediate-bench-press-program.jpg",];
@@ -240,85 +404,99 @@ playlistGrid(context) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 15, vertical: appPadding / 2),
-                  child: Container(
-                    height: size.height * 0.24,
-                    decoration: BoxDecoration(
-                        color: Colors.grey[850],
-                        borderRadius: BorderRadius.circular(28.0),
-                        boxShadow: [
-                          BoxShadow(
-                              color: black.withOpacity(0.3),
-                              blurRadius: 28.0,
-                              offset: Offset(10, 15))
-                        ]),
-                    child: Padding(
-                      padding: const EdgeInsets.fromLTRB(5, 2, 3, 1),
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
+                  child: InkWell(
+                    splashColor: Colors.red[900],
+                        borderRadius: BorderRadius.circular(50),
+
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => Exercises(),// make list take a parameter for the folder
+                            ),
+                          );
+                           print("Clicked "+index.toString());
+                        },
+                    child: Container(
+                      height: size.height * 0.24,
+                      decoration: BoxDecoration(
+                          color: Colors.grey[850],
+                          borderRadius: BorderRadius.circular(28.0),
+                          boxShadow: [
+                            BoxShadow(
+                                color: black.withOpacity(0.3),
+                                blurRadius: 28.0,
+                                offset: Offset(10, 15))
+                          ]),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(5, 2, 3, 1),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
 
 
-                              Container(
-                                width: size.width * 0.9,
-                                height: size.height*.185,
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(20.0),
-                                  child: Image(
-                                    image: AssetImage(images[index]),
-                                    fit: BoxFit.cover,
+                                Container(
+                                  width: size.width * 0.9,
+                                  height: size.height*.185,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(20.0),
+                                    child: Image(
+                                      image: AssetImage(images[index]),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
-                              ),
-                              //
-                              // Container(
-                              //   width: size.width * 0.3,
-                              //   child: Padding(
-                              //     padding: const EdgeInsets.only(
-                              //         left: appPadding / 2, top: appPadding / 1.5),
-                              //     child: Column(
-                              //       crossAxisAlignment: CrossAxisAlignment.start,
-                              //       children: [
-                              //         Text(
-                              //           text[index],
-                              //           style: TextStyle(
-                              //             color: Colors.blue,
-                              //             fontWeight: FontWeight.bold,
-                              //             fontSize: 16,
-                              //           ),
-                              //           maxLines: 2,
-                              //         ),
-                              //
-                              //       ],
-                              //     ),
-                              //   ),
-                              // ),
-                            ],
-                          ),
-                          SizedBox(height: 2,),
+                                //
+                                // Container(
+                                //   width: size.width * 0.3,
+                                //   child: Padding(
+                                //     padding: const EdgeInsets.only(
+                                //         left: appPadding / 2, top: appPadding / 1.5),
+                                //     child: Column(
+                                //       crossAxisAlignment: CrossAxisAlignment.start,
+                                //       children: [
+                                //         Text(
+                                //           text[index],
+                                //           style: TextStyle(
+                                //             color: Colors.blue,
+                                //             fontWeight: FontWeight.bold,
+                                //             fontSize: 16,
+                                //           ),
+                                //           maxLines: 2,
+                                //         ),
+                                //
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
+                              ],
+                            ),
+                            SizedBox(height: 2,),
 
-                          Row(
-                            children: [
-                              SizedBox(
+                            Row(
+                              children: [
+                                SizedBox(
 
-                                width: size.width * 0.7,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 15, ),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(text[index],  textAlign: TextAlign.start,style: TextStyle(fontSize: 24,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
+                                  width: size.width * 0.7,
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                        left: 15, ),
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text(text[index],  textAlign: TextAlign.start,style: TextStyle(fontSize: 24,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
 
 
-                                    ],
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
+                              ],
+                            ),
 
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
