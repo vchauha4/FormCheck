@@ -3,7 +3,7 @@ import 'package:path_provider/path_provider.dart';
 
 
 import 'package:flutter/material.dart';
-
+import 'package:permission_handler/permission_handler.dart';
 import 'Camera.dart';
 import 'appbarclipper.dart';
 
@@ -17,30 +17,31 @@ class Exercises extends StatefulWidget {
 class _ExercisesState extends State<Exercises> {
 
 
-  // void initPlayerPermission() async {
-  //   final status = await Permission.storage.status;
-  //   const statusManageStorage = Permission.manageExternalStorage;
-  //   if (status.isDenied ||
-  //       !status.isGranted ||
-  //       !await statusManageStorage.isGranted) {
-  //     await [
-  //       Permission.storage,
-  //       Permission.mediaLibrary,
-  //       Permission.requestInstallPackages,
-  //       Permission.manageExternalStorage,
-  //       Permission.accessMediaLocation,
-  //
-  //     ].request();
-  //   }
-  //
-  //   Directory directory2 = await getExternalStorageDirectory() as Directory;
-  //
-  // }
+  void initPlayerPermission() async {
+    final status = await Permission.storage.status;
+    const statusManageStorage = Permission.manageExternalStorage;
+    if (status.isDenied ||
+        !status.isGranted ||
+        !await statusManageStorage.isGranted) {
+      await [
+        Permission.storage,
+        Permission.mediaLibrary,
+        Permission.requestInstallPackages,
+        Permission.manageExternalStorage,
+        Permission.accessMediaLocation,
+
+      ].request();
+    }
+
+  Directory directory2 = await getExternalStorageDirectory() as Directory;
+  }
 
   bool shadowColor = false;
   double? scrolledUnderElevation;
   @override
   Widget build(BuildContext context) {
+    initPlayerPermission();
+
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
@@ -171,7 +172,7 @@ class _ExercisesState extends State<Exercises> {
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: FileImage(File('/storage/emulated/0/AudioFiles/Benchvid2.gif')),
+                          image: FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')),
                           fit: BoxFit.cover,
 
                         ),
