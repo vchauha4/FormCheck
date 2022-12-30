@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'VideoPage.dart';
 
 class CameraPage extends StatefulWidget {
-  const CameraPage({Key? key}) : super(key: key);
+  final int number;
+
+  const CameraPage({Key? key, required this.number}) : super(key: key);
 
   @override
   State<CameraPage> createState() => _CameraPageState();

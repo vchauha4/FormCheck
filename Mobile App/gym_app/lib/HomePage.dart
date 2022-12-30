@@ -244,7 +244,7 @@ infoPage(context){
   Navigator.push(
   context,
   MaterialPageRoute(
-  builder: (context) => Exercises(),// make list take a parameter for the folder
+  builder: (context) => Exercises(number: 0,),// make list take a parameter for the folder
   ),
   );
   print("Clicked ");
@@ -412,13 +412,13 @@ playlistGrid(context) {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Exercises(),// make list take a parameter for the folder
+                              builder: (context) => Exercises(number: index,),// make list take a parameter for the folder
                             ),
                           );
                            print("Clicked "+index.toString());
                         },
                     child: Container(
-                      height: size.height * 0.24,
+                      height: size.height * 0.233,
                       decoration: BoxDecoration(
                           color: Colors.grey[850],
                           borderRadius: BorderRadius.circular(28.0),
@@ -429,7 +429,7 @@ playlistGrid(context) {
                                 offset: Offset(10, 15))
                           ]),
                       child: Padding(
-                        padding: const EdgeInsets.fromLTRB(5, 2, 3, 1),
+                        padding: const EdgeInsets.fromLTRB(5, 1, 3, 3),
                         child: Column(
                           children: [
                             Row(
