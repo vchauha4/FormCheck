@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:gym_app/FeedBack.dart';
 import 'package:path_provider/path_provider.dart';
 
 
@@ -200,7 +201,7 @@ class _ExercisesState extends State<Exercises> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CameraPage(number: widget.number,),// make list take a parameter for the folder
+                          builder: (context) => FeedBack(number: widget.number,), //CameraPage(number: widget.number,),// make list take a parameter for the folder
                         ),
                       );
                       print("Clicked ");
