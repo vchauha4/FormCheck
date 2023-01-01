@@ -287,26 +287,26 @@ class _ProfileState extends State<Profile> {
 
               ],
             ),
-          Card(
-          color: Colors.white12,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12.0),
-          ),
-          elevation: 15,
-          child:InkWell(
-              splashColor: Colors.blue.withAlpha(30),
-              onTap: () {
-                debugPrint('Card tapped.');
-              },
-              child: SizedBox(
-                width: 186.5,
-                height: 165,
-                child: Text("test"),
-          ),),
-
-
-
-          ),
+          // Card(
+          // color: Colors.white12,
+          // shape: RoundedRectangleBorder(
+          //   borderRadius: BorderRadius.circular(12.0),
+          // ),
+          // elevation: 15,
+          // child:InkWell(
+          //     splashColor: Colors.blue.withAlpha(30),
+          //     onTap: () {
+          //       debugPrint('Card tapped.');
+          //     },
+          //     child: SizedBox(
+          //       width: 186.5,
+          //       height: 165,
+          //       child: Text("test"),
+          // ),),
+          //
+          //
+          //
+          // ),
           ]),
         ));
   }
