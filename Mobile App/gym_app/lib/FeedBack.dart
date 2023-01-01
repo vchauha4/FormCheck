@@ -75,73 +75,86 @@ class _FeedBackState extends State<FeedBack> {
 
       ];
     },
-    body: Padding(
-      padding: const EdgeInsets.symmetric(
-          horizontal: 10,
-          vertical: 45
-      ),
-          child: Column(
-            children: [
-              CircularPercentIndicator(
-                radius: 120.0,
-                lineWidth: 13.0,
-                animation: true,
-                percent: score/100,
-                center: Text(
-                  score.toString()+"%",
-                    style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')                ),
-                footer: Text(
-                  "Your Score",
-                    style: TextStyle(fontSize: 23,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')
-                ),
-                circularStrokeCap: CircularStrokeCap.round,
-                progressColor: Colors.red[900],
-                backgroundColor: Colors.black54,
+    body: Container(
+      decoration:  BoxDecoration(
 
+        //image: DecorationImage(image: FileImage(File('/storage/emulated/0/files/pictures/itachi.jpg')), fit: BoxFit.cover, opacity: 0.1),//HERE IS backgroundColor
 
+          gradient: LinearGradient(
+              colors: [Color(0xFF424242), Color(0xFF212121)],
+              stops: [0.1, 0.7],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              tileMode: TileMode.repeated)),
+
+      child: Padding(
+        padding: const EdgeInsets.symmetric(
+            horizontal: 10,
+            vertical: 45
         ),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 20),
-                child: Flexible(
-                  child: Text('Based on your above score, your form is considered to be optimal:',  textAlign: TextAlign.start,style: TextStyle(fontSize: 24,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
-                ),
-              ),
-
-              Padding(
-                padding: const EdgeInsets.fromLTRB(0, 30, 0,5),
-                child: Flexible(
-                  child: Text('Feedback is provided below to improve your score:',  textAlign: TextAlign.start,style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Column(
-                  children:
-                    feedBackList.map((name){
-                          return Row(
-                          children:[
-
-                            Text("\u2022",textAlign: TextAlign.start,style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')), //bullet text
-
-                            SizedBox(width: 10,), //space between bullet and text
-
-                            Expanded(
-                                child:Text(name, textAlign: TextAlign.start,style: TextStyle(fontSize: 23,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')), //text
-                                )
-                              ]
-                            );
-                          }).toList()
+            child: Column(
+              children: [
+                CircularPercentIndicator(
+                  radius: 120.0,
+                  lineWidth: 13.0,
+                  animation: true,
+                  percent: score/100,
+                  center: Text(
+                    score.toString()+"%",
+                      style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')                ),
+                  footer: Text(
+                    "Your Score",
+                      style: TextStyle(fontSize: 23,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')
+                  ),
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: Colors.red[900],
+                  backgroundColor: Colors.black54,
 
 
-
-                ),
-              ),
-            ],
           ),
 
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 20),
+                  child: Flexible(
+                    child: Text('Based on your above score, your form is considered to be optimal:',  textAlign: TextAlign.start,style: TextStyle(fontSize: 24,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
+                  ),
+                ),
+
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 30, 0,5),
+                  child: Flexible(
+                    child: Text('Feedback is provided below to improve your score:',  textAlign: TextAlign.start,style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Column(
+                    children:
+                      feedBackList.map((name){
+                            return Row(
+                            children:[
+
+                              Text("\u2022",textAlign: TextAlign.start,style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')), //bullet text
+
+                              SizedBox(width: 10,), //space between bullet and text
+
+                              Expanded(
+                                  child:Text(name, textAlign: TextAlign.start,style: TextStyle(fontSize: 23,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')), //text
+                                  )
+                                ]
+                              );
+                            }).toList()
 
 
+
+                  ),
+                ),
+              ],
+            ),
+
+
+
+      ),
     )
 
 

@@ -43,6 +43,7 @@ dependencies:
   gallery_saver: ^2.3.2
 #  permission_handler: ^10.2.0
   percent_indicator: ^4.2.2
+  multi_split_view: ^2.2.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -79,6 +80,10 @@ flutter:
   uses-material-design: true
 
   fonts:
+    - family: MyIcons
+      fonts:
+        - asset: "assets/MyIcons.ttf"
+
     - family: Proxima Nova
       fonts:
         - asset: "Assets/FontsFree-Net-proxima_nova_reg-webfont.ttf"
