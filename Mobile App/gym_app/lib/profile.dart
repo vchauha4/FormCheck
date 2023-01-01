@@ -132,7 +132,7 @@ class _ProfileState extends State<Profile> {
                     },
                     child: SizedBox(
                       width: 190,
-                      height: 90,
+                      height: 165,
                       child: Column(
                         children: [
                           Row(
@@ -152,6 +152,39 @@ class _ProfileState extends State<Profile> {
                             child: Text('56',
                               style: TextStyle(fontSize: 36,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                             ),
+                          ),
+
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(10, 2, 0,5),
+                                child: Text('\u2022 Bench Press: 24',
+                                  style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(10, 2, 0,5),
+                                child: Text('\u2022 Dead Lift: 20',
+                                  style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(10, 2, 0,5),
+                                child: Text('\u2022 Squats: 12',
+                                  style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
+                                ),
+                              ),
+                            ],
                           ),
 
                         ],
@@ -189,7 +222,7 @@ class _ProfileState extends State<Profile> {
                     },
                     child: SizedBox(
                       width: 186.5,
-                      height: 90,
+                      height: 165,
                       child: Column(
                         children: [
                           Row(
@@ -211,6 +244,39 @@ class _ProfileState extends State<Profile> {
                             ),
                           ),
 
+
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(10, 2, 0,5),
+                                child: Text('\u2022 Bench Press: 82.7',
+                                  style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(10, 2, 0,5),
+                                child: Text('\u2022 Dead Lift: 85.7',
+                                  style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          Row(
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.fromLTRB(10, 2, 0,5),
+                                child: Text('\u2022 Squats: 91.2',
+                                  style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
+                                ),
+                              ),
+                            ],
+                          ),
                         ],
                       ),
                     ),
@@ -220,10 +286,27 @@ class _ProfileState extends State<Profile> {
                 ),
 
               ],
-            )
+            ),
+          Card(
+          color: Colors.white12,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(12.0),
+          ),
+          elevation: 15,
+          child:InkWell(
+              splashColor: Colors.blue.withAlpha(30),
+              onTap: () {
+                debugPrint('Card tapped.');
+              },
+              child: SizedBox(
+                width: 186.5,
+                height: 165,
+                child: Text("test"),
+          ),),
 
 
 
+          ),
           ]),
         ));
   }
