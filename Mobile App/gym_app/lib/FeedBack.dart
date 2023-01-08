@@ -172,7 +172,8 @@ class _FeedBackState extends State<FeedBack> {
     feedBackList.map((strone){
       return Row(
           children:[
-            Text("\u2022", style: TextStyle(fontSize: 30),), //bullet text
+            Text(
+          "\u2022", style: TextStyle(fontSize: 30),), //bullet text
             SizedBox(width: 10,), //space between bullet and text
             Expanded(
               child:Text(strone, style: TextStyle(fontSize: 30),), //text
