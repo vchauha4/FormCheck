@@ -3,11 +3,23 @@ import 'package:gym_app/HomePage.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
 
+import 'Boxes.dart';
 import 'appbarclipper.dart';
+import 'modelClassStats.dart';
 
 Future<void> main() async {
   await Hive.initFlutter();
+  Hive.registerAdapter(DataStatsAdapter());
 
+  await Hive.openBox<DataStats>('stats');
+
+
+  // final myBox= Boxes.getData();
+  // // myBox.put(0, DataStats(1,1,1,1,1,1));
+  // final datastat=DataStats()
+  //   ..BenchCount=0;
+  //
+  // myBox.put('user', datastat);
   runApp(
       MaterialApp(
     debugShowCheckedModeBanner: false,

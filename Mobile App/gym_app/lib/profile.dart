@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
+import 'Boxes.dart';
 import 'HomePage.dart';
 import 'my_icons_icons.dart';
 import 'dart:io';
@@ -12,8 +13,24 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+
+  final myBox= Boxes.getData();
+
+
+
   @override
   Widget build(BuildContext context) {
+    final myData= myBox.get('user');
+    int? benchCount=myData?.BenchCount;
+    int? squatCount=myData?.SquatsCount;
+    int? deadLiftCount=myData?.BenchCount;
+
+    double? benchScore=myData?.BenchScore;
+    double? squatScore=myData?.SquatsScore;
+    double? deadLiftScore=myData?.DeadliftScore;
+
+
+
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double width = MediaQuery.of(context).size.width;
     double height = MediaQuery.of(context).size.height;
@@ -149,7 +166,7 @@ class _ProfileState extends State<Profile> {
 
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 2, 0,5),
-                            child: Text('56',
+                            child: Text((benchCount!+deadLiftCount!+squatCount!).toString(),
                               style: TextStyle(fontSize: 36,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                             ),
                           ),
@@ -158,7 +175,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Bench Press: 24',
+                                child: Text('\u2022 Bench Press: '+benchCount.toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
@@ -169,7 +186,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Dead Lift: 20',
+                                child: Text('\u2022 Dead Lift: '+deadLiftCount.toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
@@ -180,7 +197,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Squats: 12',
+                                child: Text('\u2022 Squats: '+squatCount.toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
@@ -239,7 +256,7 @@ class _ProfileState extends State<Profile> {
 
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 2, 0,5),
-                            child: Text('88.4',
+                            child: Text((((benchScore!+deadLiftScore!+squatScore!)/3).toStringAsPrecision(3)).toString(),
                               style: TextStyle(fontSize: 36,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                             ),
                           ),
@@ -249,7 +266,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Bench Press: 82.7',
+                                child: Text('\u2022 Bench Press: '+benchScore.toStringAsPrecision(3).toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
@@ -260,7 +277,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Dead Lift: 85.7',
+                                child: Text('\u2022 Dead Lift: '+deadLiftScore.toStringAsPrecision(3).toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
@@ -271,7 +288,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Squats: 91.2',
+                                child: Text('\u2022 Squats: '+squatScore.toStringAsPrecision(3).toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),

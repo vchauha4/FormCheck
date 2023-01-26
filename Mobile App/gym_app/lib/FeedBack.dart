@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:gym_app/HomePage.dart';
+import 'package:hive/hive.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+
+import 'Boxes.dart';
+import 'modelClassStats.dart';
 
 class FeedBack extends StatefulWidget {
   final int number;
@@ -12,6 +16,251 @@ class FeedBack extends StatefulWidget {
 }
 
 class _FeedBackState extends State<FeedBack> {
+
+
+@override
+  void initState() {
+
+  updateStats();
+
+    super.initState();
+  }
+
+@override
+  void dispose() {
+  Hive.close();
+    // TODO: implement dispose
+    super.dispose();
+  }
+
+
+  Future<void> updateStats() async {
+  int number=widget.number;
+
+  final myBox= Boxes.getData();
+  // myBox.put(0, DataStats(1,1,1,1,1,1));
+  // final datastat=DataStats()
+  // ..BenchCount=0;
+  //
+  // myBox.put('user', datastat);
+
+
+
+
+    // Box open= await Hive.openBox<DataStats>('stats') ;
+
+
+
+    // open.put(2,5);
+
+  //   print(myBox.getAt(0));
+  //   final ceda=myBox.values.toList().cast<DataStats>();
+  // print(ceda.first);
+  final myData= myBox.get('user');
+
+  if(number==0){
+
+    int? curentBench=myData?.BenchCount;
+    if(curentBench==null){
+      curentBench=0;
+    }
+
+    curentBench=(curentBench!+1)!;
+
+
+
+    double? benchScore=myData?.BenchScore;
+    if(benchScore==null){
+      benchScore=0;
+    }
+
+    benchScore=(benchScore!+1.8)!;
+
+
+    double? squatScore=myData?.SquatsScore;
+    if(squatScore==null){
+      squatScore=0;
+    }    double? deadLiftScore=myData?.DeadliftScore;
+    if(deadLiftScore==null){
+      deadLiftScore=0;
+    }
+
+
+    int? curentSquats=myData?.SquatsCount;
+    if(curentSquats==null){
+      curentSquats=0;
+    }
+    int? curentDeadLift=myData?.DeadliftCount;
+    if(curentDeadLift==null){
+      curentDeadLift=0;
+    }
+
+
+
+
+    // if(myData?.BenchCount!=null){
+      final datastat=DataStats()
+        ..BenchCount=curentBench
+        ..SquatsCount=curentSquats
+        ..DeadliftCount=curentDeadLift
+        ..BenchScore=benchScore
+        ..DeadliftScore=deadLiftScore
+        ..SquatsScore=squatScore;
+
+
+
+      myData?.box?.put('user', datastat);
+    // }
+    // else{
+    //   final datastat=DataStats()
+    //     ..BenchCount=myData!.BenchCount+1;
+    //
+    //   myBox.put('user', datastat);
+    // }
+  }
+
+
+  else if(number==2){
+    int? curentSquats=myData?.SquatsCount;
+    if(curentSquats==null){
+      curentSquats=0;
+    }
+    curentSquats=(curentSquats!+1)!;
+
+
+    double? benchScore=myData?.BenchScore;
+    if(benchScore==null){
+      benchScore=0;
+    }
+
+
+
+    double? squatScore=myData?.SquatsScore;
+    if(squatScore==null){
+      squatScore=0;
+    }
+    squatScore=(squatScore!+3.3)!;
+
+
+    double? deadLiftScore=myData?.DeadliftScore;
+    if(deadLiftScore==null){
+      deadLiftScore=0;
+    }
+
+
+
+    int? curentDeadLift=myData?.DeadliftCount;
+    if(curentDeadLift==null){
+      curentDeadLift=0;
+    }
+    int? curentBench=myData?.BenchCount;
+    if(curentBench==null){
+      curentBench=0;
+    }
+
+    final datastat=DataStats()
+      ..SquatsCount=curentSquats
+      ..BenchCount=curentBench
+      ..DeadliftCount=curentDeadLift
+      ..BenchScore=benchScore
+      ..DeadliftScore=deadLiftScore
+      ..SquatsScore=squatScore;
+
+
+    myBox.put('user', datastat);
+
+
+
+
+
+  }
+  else if(number==1){
+    int? curentDeadlift=myData?.DeadliftCount;
+    if(curentDeadlift==null){
+      curentDeadlift=0;
+    }
+    curentDeadlift=(curentDeadlift!+1)!;
+
+
+    double? benchScore=myData?.BenchScore;
+    if(benchScore==null){
+      benchScore=0;
+    }
+
+
+
+    double? squatScore=myData?.SquatsScore;
+    if(squatScore==null){
+      squatScore=0;
+    }
+
+
+    double? deadLiftScore=myData?.DeadliftScore;
+    if(deadLiftScore==null){
+      deadLiftScore=0;
+    }
+
+    deadLiftScore=(deadLiftScore!+5.2)!;
+
+
+    int? curentBench=myData?.BenchCount;
+    if(curentBench==null){
+      curentBench=0;
+    }
+    int? curentSquats=myData?.SquatsCount;
+    if(curentSquats==null){
+      curentSquats=0;
+    }
+
+
+    final datastat=DataStats()
+      ..DeadliftCount=curentDeadlift
+      ..SquatsCount=curentSquats
+      ..BenchCount=curentBench
+      ..BenchScore=benchScore
+      ..DeadliftScore=deadLiftScore
+      ..SquatsScore=squatScore;
+
+    myBox.put('user', datastat);
+
+  }
+
+
+  final myDatUpdated= myBox.get('user');
+
+  print('Here '+number.toString());
+  print(myBox.getAt(0)?.BenchCount);
+  print(myBox.getAt(0)?.SquatsCount);
+
+  print('Bench ');
+
+  print(myDatUpdated?.BenchCount);
+  print('Squats ');
+
+  print(myDatUpdated?.SquatsCount);
+  print('Deadlift ');
+
+  print(myDatUpdated?.DeadliftCount);
+
+  print('BenchScore ');
+
+  print(myDatUpdated?.BenchScore);
+  print('Squats Score');
+
+  print(myDatUpdated?.SquatsScore);
+  print('Deadlift Score');
+
+  print(myDatUpdated?.DeadliftScore);
+
+  }
+
+
+
+
+
+
+
+
   @override
   Widget build(BuildContext context) {
 
