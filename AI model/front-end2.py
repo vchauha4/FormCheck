@@ -20,8 +20,7 @@ interpreter = tf.lite.Interpreter(model_path="thunder_model.tflite")
 interpreter.allocate_tensors()
 
 
-switch =0
-
+switch = 0
 dataAngles = [[[],[]],[[],[]]]
 angles = []
 counter  =0
@@ -201,7 +200,7 @@ def draw_pose(image, keypoints, radius=2):
 # ---------------------INPUTS--------------------------------------
 
 filename = "wrong[20].mp4"
-live_bool = True
+live_bool = False
 
 # ---------------------EXPORT CSV FILE WITH MOVENET-------------------------------------
 vidPath = f'{filename}'
@@ -296,36 +295,37 @@ def toCSV():
     df.to_csv("./UserVid.csv")
 
 
+def predict():
 
 
 # ---------------------FEED INTO MODEL-------------------------------------
-toCSV()
-rf = joblib.load("model1.joblib")
+    toCSV()
+    rf = joblib.load("model1.joblib")
 
-#Getting one random test video
+    #Getting one random test video
 
-dfv2=pd.read_csv("./UserVid.csv")
-#print(dfv2.head())
+    dfv2=pd.read_csv("./UserVid.csv")
+    #print(dfv2.head())
 
-wrongarrayX= dfv2[['Frames', 'Angles']].values
-#wronglabel=dfv2['label'] --> Users video doesn't have label
+    wrongarrayX= dfv2[['Frames', 'Angles']].values
+    #wronglabel=dfv2['label'] --> Users video doesn't have label
 
-#Predict based on the values
-pred_y_data = rf.predict(wrongarrayX)
+    #Predict based on the values
+    pred_y_data = rf.predict(wrongarrayX)
 
-# ---------------------OUTPUT RESULTS-------------------------------------
+    # ---------------------OUTPUT RESULTS-------------------------------------
 
-sort_y_data = sorted(pred_y_data)
-mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
-print("Your score:")
-score = (((1-mean_val_of_highest_ten))*100)+10
-print(score)
-#print(mean_val_of_highest_ten)
-if(score > 65):
-    print("Your form is optimal")
-else:
-    print("Your form not optimal")
-
+    sort_y_data = sorted(pred_y_data)
+    mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
+    print("Your score:")
+    score = (((1-mean_val_of_highest_ten))*100)+10
+    print(score)
+    #print(mean_val_of_highest_ten)
+    if(score > 65):
+        print("Your form is optimal")
+    else:
+        print("Your form not optimal")
+predict()
 #Not-needed print statements
 #print(np.mean(sort_y_data[-10:]))
 #print(wronglabel)
