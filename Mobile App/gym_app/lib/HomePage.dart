@@ -7,6 +7,18 @@ import 'ExerciseDetails.dart';
 import 'appbarclipper.dart';
 
 /*
+fix all overflow
+in the feedback page we add the hive stuff
+then get that data in the stats page
+link from the confirm page to the feedback page
+start setting up the http requests
+
+
+
+
+
+
+
 add the tracking thing for bottomTabBar
 adjust the Card row thing to make it better and arrange evrythnig
 then copy it for the info
@@ -62,7 +74,7 @@ class _HomePageState extends State<HomePage> {
             ),
             BottomNavigationBarItem(
               backgroundColor: Color(0xFF212121),
-              label: "My Workouts",
+              label: "Information",
               icon: Icon(
                 Icons.whatshot_outlined,
                 size: 25,
@@ -423,7 +435,7 @@ playlistGrid(context) {
                   print("Clicked " + index.toString());
                 },
                 child: Container(
-                  height: size.height * 0.233,
+                  height: size.height * 0.236,
                   decoration: BoxDecoration(
                       color: Colors.grey[850],
                       borderRadius: BorderRadius.circular(28.0),

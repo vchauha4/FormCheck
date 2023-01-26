@@ -17,12 +17,14 @@ class _FeedBackState extends State<FeedBack> {
 
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     List<String>  feedBackList=['Arms Too Wide','Bar is unbalanced'];
-    double score=80.4;
+    double score=80.42;
     List text=['Bench Press ','Dead Lift ','Squats ','Bench Press ','Bench Press ',];
 
 
     return Scaffold(
-      backgroundColor: const Color(0xFF212224),
+        resizeToAvoidBottomInset: false,
+
+        backgroundColor: const Color(0xFF212224),
 
 
       // appBar: AppBar(
@@ -90,7 +92,7 @@ class _FeedBackState extends State<FeedBack> {
       child: Padding(
         padding: const EdgeInsets.symmetric(
             horizontal: 10,
-            vertical: 45
+            vertical: 20,
         ),
             child: Column(
               children: [
@@ -123,30 +125,32 @@ class _FeedBackState extends State<FeedBack> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(0, 30, 0,5),
                   child: Flexible(
-                    child: Text('Feedback is provided below to improve your score:',  textAlign: TextAlign.start,style: TextStyle(fontSize: 25,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
+                    child: Text('Feedback is provided below to improve your score:',  textAlign: TextAlign.start,style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  child: Column(
-                    children:
-                      feedBackList.map((name){
-                            return Row(
-                            children:[
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Column(
+                      children:
+                        feedBackList.map((name){
+                              return Row(
+                              children:[
 
-                              Text("\u2022",textAlign: TextAlign.start,style: TextStyle(fontSize: 30,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')), //bullet text
+                                Text("\u2022",textAlign: TextAlign.start,style: TextStyle(fontSize: 28,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')), //bullet text
 
-                              SizedBox(width: 10,), //space between bullet and text
+                                SizedBox(width: 10,), //space between bullet and text
 
-                              Expanded(
-                                  child:Text(name, textAlign: TextAlign.start,style: TextStyle(fontSize: 23,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')), //text
-                                  )
-                                ]
-                              );
-                            }).toList()
+                                Expanded(
+                                    child:Text(name, textAlign: TextAlign.start,style: TextStyle(fontSize: 23,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')), //text
+                                    )
+                                  ]
+                                );
+                              }).toList()
 
 
 
+                    ),
                   ),
                 ),
               ],
