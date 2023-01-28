@@ -201,7 +201,7 @@ class _ExercisesState extends State<Exercises> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => FeedBack(number: widget.number,), //CameraPage(number: widget.number,),// make list take a parameter for the folder
+                          builder: (context) => CameraPage(number: widget.number,), //CameraPage(number: widget.number,),// make list take a parameter for the folder
                         ),
                       );
                       print("Clicked ");

@@ -25,7 +25,7 @@ then copy it for the info
 
 add the view all buttom that takes u to grid version
 add the bench workout with the just the cam feature inapp
- */
+*/
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);

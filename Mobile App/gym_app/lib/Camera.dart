@@ -55,7 +55,7 @@ class _CameraPageState extends State<CameraPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => VideoPage(filePath: file.path),// make list take a parameter for the folder
+          builder: (context) => VideoPage(filePath: file.path, number: widget.number,),// make list take a parameter for the folder
         ),
       );
 
