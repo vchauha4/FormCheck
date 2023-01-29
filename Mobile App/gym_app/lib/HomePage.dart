@@ -56,11 +56,11 @@ class _HomePageState extends State<HomePage> {
           // Shifting
           selectedItemColor: Colors.white,
           unselectedIconTheme: IconThemeData(
-            color: Color(0xFFfc0811),
+            color: Colors.red,
           ),
           unselectedItemColor: Color(0xFFfc0811),
           selectedLabelStyle: TextStyle(fontWeight: FontWeight.bold),
-          selectedIconTheme: IconThemeData(color: Color(0xFF4c7dad), size: 40),
+          selectedIconTheme: IconThemeData(color: Colors.blueAccent, size: 40),
 
           items: const [
             BottomNavigationBarItem(
@@ -76,8 +76,9 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Color(0xFF212121),
               label: "Information",
               icon: Icon(
-                Icons.whatshot_outlined,
+                Icons.info_outline,
                 size: 25,
+
               ),
             ),
           ],
@@ -713,7 +714,7 @@ customAppBar(context) {
                 transform: Matrix4.rotationY(math.pi),
                 alignment: Alignment.center,
                 child: Icon(
-                  Icons.sort_rounded,
+                  Icons.sort_sharp,
                   size: 30.0,
                 ),
               )
