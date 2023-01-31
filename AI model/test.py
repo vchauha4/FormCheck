@@ -1,6 +1,6 @@
 import os
 # assign directory
-directory = 'data\\ufcProper'
+directory = 'data\\front'
 stingLIst=[]
 # iterate over files in
 # that directory
