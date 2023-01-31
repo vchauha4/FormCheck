@@ -14,6 +14,7 @@ interpreter.allocate_tensors()
 
 
 switch = 0
+delta = 0
 dataAngles = [[[],[]],[[],[]]]
 counter  =0
 COLORS= {
@@ -122,7 +123,7 @@ def movenet(input_image):
     keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
     
     
-    dataAngles[1][switch].append(calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0][0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10]))
+    dataAngles[1][switch].append(calculate_angle(keypoints_with_scores[0][0][14], (keypoints_with_scores[0][0][12]+keypoints_with_scores[0][0][11])/2, keypoints_with_scores[0][0][13]))
     
     #dataAngles[0][switch].append(keypoints_with_scores[0][0][9][1])
     
@@ -246,9 +247,9 @@ def main(vidPath):
     cap.release()
     cv2.destroyAllWindows()
 
-vidPath='IMG_6979-00.00.27.495-00.00.28.872.mp4'
+vidPath='./front/1.mp4'
 
-vidpath1 = 'untitled.mp4'
+vidpath1 = './wrong-front/13.mp4'
 main(vidPath)
 dataAngles[0][switch].append(list(range(0, len(dataAngles[1][switch]))))
 switch = 1
