@@ -384,7 +384,7 @@ plt.show()
 
 
 # ---------------------FEED INTO MODEL-------------------------------------
-rf = joblib.load("model.joblib")
+rf = joblib.load("model-squat.joblib")
 
 #Getting one random test video
 
