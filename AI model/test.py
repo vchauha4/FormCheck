@@ -1,6 +1,6 @@
 import os
 # assign directory
-directory = 'data\\front'
+directory = 'data\\wrong-front'
 stingLIst=[]
 # iterate over files in
 # that directory
