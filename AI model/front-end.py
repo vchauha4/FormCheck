@@ -129,8 +129,8 @@ def movenet(input_image):
     keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
     
     
-    dataAngles[1][switch].append(calculate_angle(keypoints_with_scores[0][0][14], (keypoints_with_scores[0][0][12]+keypoints_with_scores[0][0][11])/2, keypoints_with_scores[0][0][13]))
-    angles.append(calculate_angle(keypoints_with_scores[0][0][14], (keypoints_with_scores[0][0][12]+keypoints_with_scores[0][0][11])/2, keypoints_with_scores[0][0][13]))
+    dataAngles[1][switch].append(calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0][0][12])+calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11]))
+    angles.append(calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11])+calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0][0][12]))
     #dataAngles[0][switch].append(keypoints_with_scores[0][0][9][1])
     
 
@@ -384,7 +384,7 @@ plt.show()
 
 
 # ---------------------FEED INTO MODEL-------------------------------------
-rf = joblib.load("model-squat.joblib")
+rf = joblib.load("model-squat-knee.joblib")
 
 #Getting one random test video
 
