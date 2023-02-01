@@ -122,7 +122,7 @@ def movenet(input_image):
     keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
     
     
-    dataAngles[1][switch].append(calculate_angle(keypoints_with_scores[0][0][14], (keypoints_with_scores[0][0][12]+keypoints_with_scores[0][0][11])/2, keypoints_with_scores[0][0][13]))
+    dataAngles[1][switch].append(calculate_angle(keypoints_with_scores[0][0][16],keypoints_with_scores[0][0][14] , keypoints_with_scores[0][0][12])+calculate_angle(keypoints_with_scores[0][0][15],keypoints_with_scores[0][0][13] , keypoints_with_scores[0][0][11]))
     
     #dataAngles[0][switch].append(keypoints_with_scores[0][0][9][1])
     
@@ -247,13 +247,11 @@ def main(vidPath):
     cv2.destroyAllWindows()
 
 
-vidPath= 'data\\wrong-front\\0.mp4'
+vidPath= 'data\\front\\21.mp4'
 
 #vidpath1 =[ '','untitled.mp4']
 
-vidpath1=[ '','data\\wrong-front\\1.mp4', 'data\\wrong-front\\10.mp4', 'data\\wrong-front\\11.mp4', 'data\\wrong-front\\12.mp4', 'data\\wrong-front\\13.mp4', 'data\\wrong-front\\14.mp4', 'data\\wrong-front\\15.mp4', 'data\\wrong-front\\16.mp4', 'data\\wrong-front\\17.mp4', 'data\\wrong-front\\18.mp4', 'data\\wrong-front\\19.mp4', 'data\\wrong-front\\2.mp4', 'data\\wrong-front\\20.mp4', 'data\\wrong-front\\21.mp4', 'data\\wrong-front\\22.mp4', 'data\\wrong-front\\23.mp4', 'data\\wrong-front\\24.mp4', 'data\\wrong-front\\25.mp4', 'data\\wrong-front\\26.mp4', 'data\\wrong-front\\27.mp4', 'data\\wrong-front\\28.mp4', 'data\\wrong-front\\29.mp4', 'data\\wrong-front\\3.mp4', 'data\\wrong-front\\30.mp4', 'data\\wrong-front\\31.mp4', 'data\\wrong-front\\32.mp4', 'data\\wrong-front\\33.mp4', 'data\\wrong-front\\34.mp4', 'data\\wrong-front\\35.mp4', 'data\\wrong-front\\36.mp4', 'data\\wrong-front\\37.mp4', 'data\\wrong-front\\38.mp4', 'data\\wrong-front\\39.mp4', 'data\\wrong-front\\4.mp4', 'data\\wrong-front\\40.mp4', 'data\\wrong-front\\41.mp4', 'data\\wrong-front\\42.mp4', 'data\\wrong-front\\43.mp4', 'data\\wrong-front\\44.mp4', 'data\\wrong-front\\45.mp4', 
-'data\\wrong-front\\46.mp4', 'data\\wrong-front\\47.mp4', 'data\\wrong-front\\48.mp4', 'data\\wrong-front\\49.mp4', 'data\\wrong-front\\5.mp4', 'data\\wrong-front\\50.mp4', 'data\\wrong-front\\51.mp4', 'data\\wrong-front\\52.mp4', 'data\\wrong-front\\6.mp4', 'data\\wrong-front\\7.mp4', 'data\\wrong-front\\8.mp4', 'data\\wrong-front\\9.mp4']
-
+vidpath1=['data\\front\\0.mp4', 'data\\front\\1.mp4', 'data\\front\\10.mp4', 'data\\front\\11.mp4', 'data\\front\\12.mp4', 'data\\front\\13.mp4', 'data\\front\\14.mp4', 'data\\front\\15.mp4', 'data\\front\\16.mp4', 'data\\front\\17.mp4', 'data\\front\\18.mp4', 'data\\front\\19.mp4', 'data\\front\\2.mp4', 'data\\front\\22.mp4', 'data\\front\\23.mp4', 'data\\front\\24.mp4', 'data\\front\\25.mp4', 'data\\front\\27.mp4', 'data\\front\\28.mp4', 'data\\front\\29.mp4', 'data\\front\\3.mp4', 'data\\front\\31.mp4', 'data\\front\\32.mp4', 'data\\front\\33.mp4', 'data\\front\\34.mp4', 'data\\front\\35.mp4', 'data\\front\\36.mp4', 'data\\front\\37.mp4', 'data\\front\\38.mp4', 'data\\front\\39.mp4', 'data\\front\\4.mp4', 'data\\front\\40.mp4', 'data\\front\\42.mp4', 'data\\front\\43.mp4', 'data\\front\\44.mp4', 'data\\front\\46.mp4', 'data\\front\\47.mp4', 'data\\front\\48.mp4', 'data\\front\\49.mp4', 'data\\front\\5.mp4', 'data\\front\\50.mp4', 'data\\front\\51.mp4', 'data\\front\\52.mp4', 'data\\front\\54.mp4', 'data\\front\\55.mp4', 'data\\front\\56.mp4', 'data\\front\\57.mp4', 'data\\front\\59.mp4', 'data\\front\\60.mp4', 'data\\front\\61.mp4', 'data\\front\\63.mp4', 'data\\front\\64.mp4', 'data\\front\\65.mp4', 'data\\front\\66.mp4', 'data\\front\\7.mp4', 'data\\front\\8.mp4']
 main(vidPath)
 
 # dataAngles[0][switch].append(list(range(0, len(dataAngles[1][switch]))))#first vid
