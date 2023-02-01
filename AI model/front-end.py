@@ -129,8 +129,8 @@ def movenet(input_image):
     keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
     
     
-    dataAngles[1][switch].append(calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0][0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10]))
-    angles.append(calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0][0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10]))
+    dataAngles[1][switch].append(calculate_angle(keypoints_with_scores[0][0][14], (keypoints_with_scores[0][0][12]+keypoints_with_scores[0][0][11])/2, keypoints_with_scores[0][0][13]))
+    angles.append(calculate_angle(keypoints_with_scores[0][0][14], (keypoints_with_scores[0][0][12]+keypoints_with_scores[0][0][11])/2, keypoints_with_scores[0][0][13]))
     #dataAngles[0][switch].append(keypoints_with_scores[0][0][9][1])
     
 
