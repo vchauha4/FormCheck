@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'VideoPage.dart';
 
 class CameraPage extends StatefulWidget {
-  const CameraPage({Key? key}) : super(key: key);
+  final int number;
+
+  const CameraPage({Key? key, required this.number}) : super(key: key);
 
   @override
   State<CameraPage> createState() => _CameraPageState();
@@ -53,7 +55,7 @@ class _CameraPageState extends State<CameraPage> {
       Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => VideoPage(filePath: file.path),// make list take a parameter for the folder
+          builder: (context) => VideoPage(filePath: file.path, number: widget.number,),// make list take a parameter for the folder
         ),
       );
 

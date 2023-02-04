@@ -8,10 +8,14 @@ import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 import 'package:path/path.dart';
 
+import 'FeedBack.dart';
+
 class VideoPage extends StatefulWidget {
   final String filePath;
+  final int number;
 
-  const VideoPage({Key? key, required this.filePath}) : super(key: key);
+
+  const VideoPage({Key? key, required this.filePath, required this.number}) : super(key: key);
   @override
   State<VideoPage> createState() => _VideoPageState();
 }
@@ -66,6 +70,14 @@ class _VideoPageState extends State<VideoPage> {
             onPressed: () {
               print("SAVING");
               _saveImageToGallery(widget.filePath);
+
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FeedBack(number: widget.number,), //CameraPage(number: widget.number,),// make list take a parameter for the folder
+                ),
+              );
 
 
             },

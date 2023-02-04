@@ -37,7 +37,7 @@ from mpl_toolkits import mplot3d
 # x_test_data2 = np.array([X_test2]).reshape(-1,1)
 # #y_test_data = np.array([y_test]).reshape(-1,1)
 
-df=pd.read_csv("labeledReps.csv")
+df=pd.read_csv("SquatKneeReps.csv")
 print(df.head())
 
 arrayX= df[['Frames', 'Angles']].values
@@ -92,7 +92,7 @@ rf = RandomForestRegressor(n_estimators=100, max_depth=6,
 # print(X_train)
 rf.fit(X_train, y_train)
 
-#joblib.dump(rf, 'model.joblib')
+joblib.dump(rf, 'model-squat-knee.joblib')
 
 '''
 #Getting one random test video

@@ -1,14 +1,17 @@
 import 'dart:io';
+import 'package:gym_app/FeedBack.dart';
 import 'package:path_provider/path_provider.dart';
 
 
 import 'package:flutter/material.dart';
-
+// import 'package:permission_handler/permission_handler.dart';
 import 'Camera.dart';
 import 'appbarclipper.dart';
 
 class Exercises extends StatefulWidget {
-  const Exercises({Key? key}) : super(key: key);
+  final int number;
+
+  const Exercises({Key? key, required this.number}) : super(key: key);
 
   @override
   State<Exercises> createState() => _ExercisesState();
@@ -16,7 +19,7 @@ class Exercises extends StatefulWidget {
 
 class _ExercisesState extends State<Exercises> {
 
-
+  //  permission_handler: ^10.2.0
   // void initPlayerPermission() async {
   //   final status = await Permission.storage.status;
   //   const statusManageStorage = Permission.manageExternalStorage;
@@ -33,14 +36,15 @@ class _ExercisesState extends State<Exercises> {
   //     ].request();
   //   }
   //
-  //   Directory directory2 = await getExternalStorageDirectory() as Directory;
-  //
+  // Directory directory2 = await getExternalStorageDirectory() as Directory;
   // }
 
   bool shadowColor = false;
   double? scrolledUnderElevation;
   @override
   Widget build(BuildContext context) {
+     // initPlayerPermission();
+
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     final ColorScheme colorScheme = Theme.of(context).colorScheme;
     final Color oddItemColor = colorScheme.primary.withOpacity(0.05);
@@ -79,6 +83,9 @@ class _ExercisesState extends State<Exercises> {
     //         ]
     //     );
 
+    List text=['Bench Press      ','Dead Lift      ','Squats      ','Bench Press      ','Bench Press      ',];
+
+
     return Scaffold(
       // appBar: AppBar(title: const Text('BenchPress'),
       //   scrolledUnderElevation: scrolledUnderElevation,
@@ -92,7 +99,7 @@ class _ExercisesState extends State<Exercises> {
         headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
           return <Widget>[
             SliverAppBar(
-              title: Center(child:Text('BenchPress      ',  textAlign: TextAlign.justify,style: TextStyle(fontSize: 35,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),)),
+              title: Center(child:Text(text[widget.number],  textAlign: TextAlign.justify,style: TextStyle(fontSize: 35,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),)),
               backgroundColor: Color(0xFF111213),
               pinned: true,
               floating: true,
@@ -171,7 +178,7 @@ class _ExercisesState extends State<Exercises> {
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: FileImage(File('/storage/emulated/0/AudioFiles/Benchvid2.gif')),
+                          image: FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')),
                           fit: BoxFit.cover,
 
                         ),
@@ -194,7 +201,7 @@ class _ExercisesState extends State<Exercises> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CameraPage(),// make list take a parameter for the folder
+                          builder: (context) => CameraPage(number: widget.number,), //CameraPage(number: widget.number,),// make list take a parameter for the folder
                         ),
                       );
                       print("Clicked ");
