@@ -168,7 +168,7 @@ def main(path, lpf):
         fname = 'op_' + str(path.split("/")[-1])
     else:
         cap = cv2.VideoCapture(0)
-        fname = 'op_video.mp4'
+        fname = 'train4.mp4'
 
     fps = cap.get(cv2.CAP_PROP_FPS)  # 25
 
@@ -251,7 +251,7 @@ if __name__ == "__main__":
     parser.add_argument("--lpf", help="use lpf (y/n)", required=False, default='n')
 
     args = parser.parse_args()
-    main('Y2Mate.is - NFL Combine Bench Press Compilation!!!!!-vIsQ15POK7Q-720p-1655143445064.mp4', 'n' == 'y')
+    main('train3.mp4', 'n' == 'y')
 
 
 """

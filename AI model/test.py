@@ -92,7 +92,7 @@ rf = RandomForestRegressor(n_estimators=100, max_depth=6,
 # print(X_train)
 rf.fit(X_train, y_train)
 
-joblib.dump(rf, 'model.joblib')
+#joblib.dump(rf, 'model.joblib')
 
 '''
 #Getting one random test video
@@ -128,16 +128,7 @@ print('Training Labels Shape:', X_test.shape)
 print('Testing Features Shape:', y_train.shape)
 print('Testing Labels Shape:', y_test.shape)
 
-
-def avg_of_top_n(l, n):
-    return sum(sorted(l)[-n:]) / n
-l = [2, 2, 3, 5, 6, 7, 5, 4, 5, 5]
-for i in range(5, 10):
-    print(avg_of_top_n(l[i - 4: i], 2))
-    #print(max(pred_y_data))
-for i in range(5, 10):
-    print(avg_of_top_n(pred_y_data[i - 4: i], 2))
-    '''
+'''
 
 
 '''
@@ -145,6 +136,7 @@ sort_y_data = sorted(pred_y_data)
 print(sort_y_data[-10:])
 print(np.mean(sort_y_data[-10:]))
 #print(wronglabel)
+
 errors = abs(pred_y_data - wronglabel)
 print('Mean Absolute Error:', round(np.mean(errors), 2), 'degrees.')
 

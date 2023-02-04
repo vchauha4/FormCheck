@@ -11,6 +11,7 @@ import joblib
 
 #######---------MOVENET CODE START--------------#########
 
+
 # TFLite interpreter
 num_kps = 17
 input_size = 256
@@ -18,6 +19,11 @@ input_size = 256
 interpreter = tf.lite.Interpreter(model_path="thunder_model.tflite")
 interpreter.allocate_tensors()
 
+#Reccomendation code max angles bench
+max_left = 0
+max_right = 0
+lowest_wrist_distance = 120
+imbalancefound = False
 
 switch = 0
 dataAngles = [[[],[]],[[],[]]]
@@ -217,7 +223,68 @@ def draw_pose(image, keypoints, radius=2):
                  lineType=cv2.LINE_AA)
     return image
 
+def bench_recs(image, keypoints):
+
+    global max_left
+    global max_right
+    global imbalancefound
+    global lowest_wrist_distance
+
+    #CALCULATE LEFT SHOULDER ANGLE
+    left_shoulder_angle = calculate_angle(keypoints[9],keypoints[7],keypoints[5])
+    #CALCULATE RIGHT SHOULDER ANGLE
+    right_shoulder_angle = calculate_angle(keypoints[10],keypoints[8],keypoints[6])
+
+    
+
+    #Recomendation 1 -- Imbalance in lifting each arm 
+        #Found based on difference between left and right angle past a certain threshold (in this case 45)
+    if(abs(left_shoulder_angle-right_shoulder_angle) >= 45):
+        img_num = 1
+        print("Angle imbalance detected",left_shoulder_angle,right_shoulder_angle)
+        print("RECCOMENDATION: Try lowering the weight as you're form is showing an imbalance")
+        cv2.imwrite("imbalance{}.jpg".format(img_num),image) #This is to prevent over-writes but also can use just reg string
+        imbalancefound = True
+        img_num += 1
+
+    #Recomendation 2 -- Not going all the way up
+        #Found based on the max angle during the entire rep
+    if left_shoulder_angle > max_left:
+        max_left = left_shoulder_angle
+    if right_shoulder_angle > max_right:
+        max_right = right_shoulder_angle
+    
+    #Recomendation 3 -- Wrist distance
+    #CALCULATE RIGHT WRIST - LEFT RIST DISTANCE
+    distance_of_wrists = abs(keypoints[10][0] - keypoints[9][0])
+
+    if distance_of_wrists < lowest_wrist_distance:
+        img_numv2 = 1
+        cv2.imwrite("wrist{}.jpg".format(img_numv2),image)
+        lowest_wrist_distance = distance_of_wrists
+        img_numv2 += 1
+        #print(distance_of_wrists, " ", lowest_wrist_distance)
+
+def check_reccs():
+    global max_left
+    global max_right
+    global imbalancefound
+    global lowest_wrist_distance
+
+    if(max_right < 150 or max_left < 150):
+        print("RECCOMENDATION: You need to lift the bar all the way up -- Try lower the weight as your max angles were: ", max_left, max_right)
+    else:
+        print("OBSERVATION: You're lifting the bar all the way to the top! Good job!",max_right,max_right)
+
+    if(imbalancefound == False):
+        print("OBSERVATION: No imbalance in arms found")
+    
+    if(lowest_wrist_distance < 120):
+        print("RECCOMENDATION: Try to move you're arms further apart - They might be too close together")
+
+
 def main(vidPath):
+
     cap = cv2.VideoCapture(vidPath)
     fname = 'op_' + str(vidPath.split("/")[-1])
 
@@ -275,6 +342,7 @@ print(vidPath)
 
 
 def main(vidPath):
+
     cap = cv2.VideoCapture(vidPath)
     fname = 'op_' + str(vidPath.split("/")[-1])
 
@@ -304,14 +372,28 @@ def main(vidPath):
             video_writer.write(outimage)
             cv2.imshow("frame", outimage)
         
+        #------Reccomendations code---------
+        bench_recs(image, curr_kp)
         
+
+
+        #------Reccomendations code end---------
 
         k = cv2.waitKey(1)
         if k == ord('q') or k == 27:
             break
+    
+    check_reccs() #Checks any reccomendations after entire video played
 
     cap.release()
     cv2.destroyAllWindows()
+
+
+#------Reccomendations code p2---------
+
+
+
+#------Reccomendations code p2 end---------
 
 
 OGvidPath= vidPath

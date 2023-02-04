@@ -247,6 +247,42 @@ def main(vidPath):
     cv2.destroyAllWindows()
 
 
+def mainv2(vidPath):
+    cap = cv2.VideoCapture(vidPath)
+    fname = 'op_' + str(vidPath.split("/")[-1])
+
+    fps = cap.get(cv2.CAP_PROP_FPS)  # 25
+
+    ## Writing the video with keypoints
+    size = (input_size * 2, input_size * 2)
+    #fourcc = cv2.VideoWriter_fourcc(*'MP4V')
+    #video_writer = cv2.VideoWriter(fname, fourcc, fps, size)
+
+    
+
+    while True:
+        ret, frame = cap.read()
+        if not ret:
+            break
+
+        curr_kp, image = get_inference(frame)
+
+
+        # output = draw_pose(image, curr_kp)
+        # output = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)
+        # outimage = np.asarray(output, dtype=np.uint8)
+        # outimage = cv2.resize(outimage, size)
+
+        #video_writer.write(outimage)
+        #cv2.imshow("frame", outimage)
+
+        k = cv2.waitKey(1)
+        if k == ord('q') or k == 27:
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
+
 vidPath= 'data\\wrong\\wrong[15].mp4'
 
 #vidpath1 =[ '','untitled.mp4']
