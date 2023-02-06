@@ -39,10 +39,10 @@ from sklearn.ensemble import GradientBoostingClassifier
 # x_test_data2 = np.array([X_test2]).reshape(-1,1)
 # #y_test_data = np.array([y_test]).reshape(-1,1)
 
-df=pd.read_csv("SquatKneeReps.csv")
+df=pd.read_csv("twoAnglesSquat.csv")
 print(df.head())
 
-arrayX= df[['Frames', 'Angles']].values
+arrayX= df[['Frames', 'Angles','Angles-Hip']].values
 
 # print(arrayX)
 label=df['label']
@@ -98,10 +98,7 @@ from sklearn.model_selection import cross_val_score
 
 #RF
 
-rf = GradientBoostingRegressor(
-   n_estimators=100, learning_rate=0.1, max_depth=1, random_state=0,
-     loss='squared_error'
- )
+rf = RandomForestRegressor(max_depth=2, random_state=1,n_estimators=100)
 rf.fit(X_train, y_train)
 
 

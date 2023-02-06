@@ -20,7 +20,7 @@ interpreter.allocate_tensors()
 
 
 switch = 0
-dataAngles = [[[],[]],[[],[]]]
+dataAngles = [[[],[]],[[],[]],[[],[]]]
 angles = []
 counter  =0
 COLORS= {
@@ -130,6 +130,7 @@ def movenet(input_image):
     
     
     dataAngles[1][switch].append(calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0][0][12])+calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11]))
+    dataAngles[2][switch].append(calculate_angle(keypoints_with_scores[0][0][14], (keypoints_with_scores[0][0][12]+keypoints_with_scores[0][0][11])/2, keypoints_with_scores[0][0][13]))
     angles.append(calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0][0][12])+calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11]))
     #dataAngles[0][switch].append(keypoints_with_scores[0][0][9][1])
     
@@ -328,6 +329,7 @@ dataAngles[0][0].append(list(range(0, len(dataAngles[1][0]))))#first vid
 for num in range(1,(len(vidpath1))):
     dataAngles[0].append([])
     dataAngles[1].append([])
+    dataAngles[2].append([])
 #    switch=num#switch to 2nd vid
     ratio=0
     switch+=1
@@ -359,25 +361,27 @@ import pandas as pd
 
 array0=[]
 array1=[]
+array2=[]
 NumOfVids=len(vidpath1)
 #For multiple vids
 for num in range(NumOfVids):
     array0=np.append(array0, dataAngles[0][num][0])
     array1=np.append(array1, dataAngles[1][num])
+    array2=np.append(array2, dataAngles[2][num])
 
 
 
-combinedFirstVidTo2darray=list(zip(array0, array1))#HERE for first vid only 
+combinedFirstVidTo2darray=list(zip(array0, array1, array2))#HERE for first vid only 
 numArray=np.array(combinedFirstVidTo2darray, dtype=object)
 
-df = pd.DataFrame(combinedFirstVidTo2darray,columns=["Frames",'Angles'])#.stack().rename_axis(['x', 'y'])#.reset_index(name='val')
+df = pd.DataFrame(combinedFirstVidTo2darray,columns=["Frames",'Angles','Angles-Hip'])#.stack().rename_axis(['x', 'y'])#.reset_index(name='val')
 
 df.to_csv("./UserVid.csv")
 
 plt.scatter(array0,array1)
 
 plt.show()
-    
+
 
 
 
@@ -391,7 +395,7 @@ rf = joblib.load("rfmodel-squat.joblib")
 dfv2=pd.read_csv("./UserVid.csv")
 #print(dfv2.head())
 
-wrongarrayX= dfv2[['Frames', 'Angles']].values
+wrongarrayX= dfv2[['Frames', 'Angles','Angles-Hip']].values
 #wronglabel=dfv2['label'] --> Users video doesn't have label
 
 #Predict based on the values
@@ -401,7 +405,7 @@ pred_y_data = rf.predict(wrongarrayX)
 
 sort_y_data = sorted(pred_y_data)
 print(pred_y_data)
-mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
+mean_val_of_highest_ten = np.mean(sort_y_data)
 print("Your score:")
 score = (((1-mean_val_of_highest_ten))*100)+10
 print(score)
