@@ -294,15 +294,15 @@ def main(vidPath):
 
         curr_kp, image = get_inference(frame)
 
-        if(live_bool == True):
+        # if(live_bool == True):
         
-            output = draw_pose(image, curr_kp)
-            output = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)
-            outimage = np.asarray(output, dtype=np.uint8)
-            outimage = cv2.resize(outimage, size)
+        output = draw_pose(image, curr_kp)
+        output = cv2.cvtColor(output, cv2.COLOR_BGR2RGB)
+        outimage = np.asarray(output, dtype=np.uint8)
+        outimage = cv2.resize(outimage, size)
 
-            video_writer.write(outimage)
-            cv2.imshow("frame", outimage)
+        video_writer.write(outimage)
+        cv2.imshow("frame", outimage)
         
         
 
@@ -384,7 +384,7 @@ plt.show()
 
 
 # ---------------------FEED INTO MODEL-------------------------------------
-rf = joblib.load("model-squat.joblib")
+rf = joblib.load("rfmodel-squat.joblib")
 
 #Getting one random test video
 
@@ -400,6 +400,7 @@ pred_y_data = rf.predict(wrongarrayX)
 # ---------------------OUTPUT RESULTS-------------------------------------
 
 sort_y_data = sorted(pred_y_data)
+print(pred_y_data)
 mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
 print("Your score:")
 score = (((1-mean_val_of_highest_ten))*100)+10

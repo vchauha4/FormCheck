@@ -2,20 +2,22 @@ import pandas as pd
 import numpy as np
 import matplotlib as mpl
 import matplotlib.pyplot as plt
-
+from sklearn.neighbors import KNeighborsRegressor
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
 from sklearn.tree import DecisionTreeClassifier
 from sklearn.linear_model import LinearRegression
 from sklearn import metrics
-from sklearn.ensemble import RandomForestRegressor
+from sklearn.ensemble import GradientBoostingRegressor, RandomForestRegressor
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import mean_absolute_error
 import joblib
-
-
-
+from sklearn.ensemble import ExtraTreesRegressor
+from sklearn.neural_network import MLPClassifier
+from sklearn.ensemble import AdaBoostClassifier
+from sklearn.neural_network import MLPRegressor
 from mpl_toolkits import mplot3d
+from sklearn.ensemble import GradientBoostingClassifier
 #import seaborn as sns
 #sns.set(style='darkgrid')
 
@@ -37,7 +39,7 @@ from mpl_toolkits import mplot3d
 # x_test_data2 = np.array([X_test2]).reshape(-1,1)
 # #y_test_data = np.array([y_test]).reshape(-1,1)
 
-df=pd.read_csv("LabeledSquat.csv")
+df=pd.read_csv("SquatKneeReps.csv")
 print(df.head())
 
 arrayX= df[['Frames', 'Angles']].values
@@ -63,14 +65,6 @@ print(clf.score(x_test_data,y_test))
 '''
 
 
-rf = RandomForestRegressor(n_estimators=100, max_depth=2,
-                           min_samples_split=2, random_state=1)
-
-
-
-from sklearn.model_selection import RandomizedSearchCV
-
-model = RandomForestRegressor()
 
 '''
 #Used to find best parameters {'min_samples_split': 28, 'max_depth': 6}
@@ -84,15 +78,43 @@ rs = RandomizedSearchCV(model, n_iter=10,
 '''
 from sklearn.model_selection import cross_val_score
 
-rf = RandomForestRegressor(n_estimators=100, max_depth=6,
-                           min_samples_split=28, random_state=42)
-
 
 
 # print(X_train)
+
+
+
+
+# print(clf.score(X_test,y_test))
+
+# scores = cross_val_score(estimator=clf, X=X_test, y=y_test, cv=10,)
+# print(scores)
+
+# print(clf.score(X_test,y_test))
+# print(mean_absolute_error(y_test, y_test))
+# print(accuracy_score(y_test,y_test))
+
+
+
+#RF
+
+rf = GradientBoostingRegressor(
+   n_estimators=100, learning_rate=0.1, max_depth=1, random_state=0,
+     loss='squared_error'
+ )
 rf.fit(X_train, y_train)
 
-joblib.dump(rf, 'model-squat.joblib')
+
+
+scores = cross_val_score(estimator=rf, X=X_test, y=y_test, cv=10,)
+print(scores)
+
+print(rf.score(X_test,y_test))
+print(mean_absolute_error(y_test, y_test))
+print(accuracy_score(y_test,y_test))
+
+
+joblib.dump(rf, 'rfmodel-squat.joblib')
 
 '''
 #Getting one random test video
