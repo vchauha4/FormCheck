@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request
 import cv2
 import numpy as np
 from scipy import signal
@@ -8,15 +8,41 @@ import tensorflow as tf
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import mean_absolute_error
 import joblib
+import requests
+from flask_uploads import UploadSet
+from werkzeug.utils import secure_filename
+
+# media = UploadSet('media', ('mp4')) # Create an upload set that only allow mp4 file
+UPLOAD_FOLDER = '/Users/nick/Documents/Class_Notes/Capstone/se4450-project-group-24/flask'
+
 
 app = Flask(__name__)
-
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 num_kps = 17
 input_size = 256
 
 interpreter = tf.lite.Interpreter(model_path="thunder_model.tflite")
 interpreter.allocate_tensors()
 
+# @app.route('/upload/', methods=["POST"])
+# def upload():
+
+
+#     if "video" in request.files:
+#         video = request.files["video"]
+#         filename = secure_filename("saved") # Secure the filename to prevent some kinds of attack
+#         media.save(video, name="saved")
+#         # Video saved
+#         return "saved"
+#     return "not saved"
+
+
+@app.route('/uploader/', methods = ['GET', 'POST'])
+def upload_file():
+   if request.method == 'POST':
+      f = request.files['video']
+      f.save(secure_filename(f.filename))
+      return 'file uploaded successfully'
 
 switch = 0
 dataAngles = [[[],[]],[[],[]]]
