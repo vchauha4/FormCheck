@@ -16,12 +16,13 @@ import os
 # media = UploadSet('media', ('mp4')) # Create an upload set that only allow mp4 file
 UPLOAD_FOLDER = '/Users/nick/Documents/Class_Notes/Capstone/se4450-project-group-24/flask'
 
-#What ot do, make functions, try to make server independent of code, allow for tweaking
+
 app = Flask(__name__)
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 num_kps = 17
 input_size = 256
-
+filename = ""
+live_bool = False
 interpreter = tf.lite.Interpreter(model_path="/Users/nick/Documents/Class_Notes/Capstone/se4450-project-group-24/flask/thunder_model.tflite")
 interpreter.allocate_tensors()
 
@@ -204,13 +205,13 @@ def draw_pose(image, keypoints, radius=2):
 
 # ---------------------INPUTS--------------------------------------
 
-filename = "wrong[20].mp4"
-live_bool = False
+# # filename = "wrong[20].mp4"
+# live_bool = False
 
-# ---------------------EXPORT CSV FILE WITH MOVENET-------------------------------------
-vidPath = f'{filename}'
-name_of_csv = ""
-# print(vidPath)
+# # ---------------------EXPORT CSV FILE WITH MOVENET-------------------------------------
+# vidPath = f'{filename}'
+# name_of_csv = ""
+# # print(vidPath)
 
 
 def main(vidPath):
@@ -272,7 +273,7 @@ def toCSV(vidPath):
         
         main(vidpath1[num])#takes a list of vids
 
-
+        print(len(dataAngles[1][num]))
         dataAngles[0][num].append(list(range(0, len(dataAngles[1][num]))))
 
         #print(len(dataAngles[1][num]))
@@ -300,13 +301,6 @@ def toCSV(vidPath):
 
     #Convert to csv
     df.to_csv("./UserVid.csv")
-
-# @app.route('/uploader/', methods = ['GET', 'POST'])
-# def upload_file():
-#    if request.method == 'POST':
-#       f = request.files['video']
-#       f.save(secure_filename(f.filename))
-#       return 'file uploaded successfully'
 
 
 @app.route("/",methods = ['GET'])
@@ -348,9 +342,10 @@ def predict():
 
             # ---------------------OUTPUT RESULTS-------------------------------------
 
-                       #Delete files from server, as they take up space,
-            os.remove("/Users/nick/Documents/Class_Notes/Capstone/se4450-project-group-24/flask/"+filename)
-            os.remove("/Users/nick/Documents/Class_Notes/Capstone/se4450-project-group-24/flask/op_"+filename)
+          
+
+           
+
             #Result processing
             sort_y_data = sorted(pred_y_data)
             mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
@@ -360,8 +355,8 @@ def predict():
                 return "Your score: " +str(score) + " Your form is optimal"
             else:
                 return "Your score: " +str(score) + " Your form not optimal"
-            
-
- 
+            #Delete files from server, as they take up space,
+            os.remove("/Users/nick/Documents/Class_Notes/Capstone/se4450-project-group-24/flask/"+filename)
+            os.remove("/Users/nick/Documents/Class_Notes/Capstone/se4450-project-group-24/flask/op_"+filename)
 if __name__ == "__main__":
     app.run(debug=True)
