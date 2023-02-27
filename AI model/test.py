@@ -97,8 +97,9 @@ from sklearn.model_selection import cross_val_score
 
 
 #RF
+from sklearn.ensemble import GradientBoostingRegressor
 
-rf = RandomForestRegressor(max_depth=2, random_state=1,n_estimators=100)
+rf = GradientBoostingRegressor(max_depth=2, random_state=1,n_estimators=100)
 rf.fit(X_train, y_train)
 
 

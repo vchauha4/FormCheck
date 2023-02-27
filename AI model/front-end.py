@@ -405,7 +405,7 @@ pred_y_data = rf.predict(wrongarrayX)
 
 sort_y_data = sorted(pred_y_data)
 print(pred_y_data)
-mean_val_of_highest_ten = np.mean(sort_y_data)
+mean_val_of_highest_ten = np.mean(sort_y_data[:-10])
 print("Your score:")
 score = (((1-mean_val_of_highest_ten))*100)+10
 print(score)
