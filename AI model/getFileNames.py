@@ -1,6 +1,6 @@
 import os
 # assign directory
-directory = 'data\\wrong-front'
+directory = 'wrong-curl'
 stingLIst=[]
 # iterate over files in
 # that directory
