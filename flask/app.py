@@ -1,16 +1,9 @@
 from flask import Flask, request
 import cv2
 import numpy as np
-from scipy import signal
-import matplotlib.pyplot as plt
 import pandas as pd
 import tensorflow as tf
-from sklearn.metrics import accuracy_score
-from sklearn.metrics import mean_absolute_error
 import joblib
-import requests
-from flask_uploads import UploadSet
-from werkzeug.utils import secure_filename
 import os
 
 # media = UploadSet('media', ('mp4')) # Create an upload set that only allow mp4 file
@@ -312,7 +305,9 @@ def root():
         
     return "Not a POST request, please upload a video"
 
-@app.route("/predict",methods = ['POST'])
+@app.route("/predictTwo",methods = ['POST'])
+
+@app.route("/predictOne",methods = ['POST'])
 def predict():
 
         if request.method == 'POST':
@@ -342,7 +337,8 @@ def predict():
 
             # ---------------------OUTPUT RESULTS-------------------------------------
 
-          
+            os.remove("/Users/nick/Documents/Class_Notes/Capstone/se4450-project-group-24/flask/"+filename)
+            os.remove("/Users/nick/Documents/Class_Notes/Capstone/se4450-project-group-24/flask/op_"+filename)
 
            
 
@@ -356,7 +352,6 @@ def predict():
             else:
                 return "Your score: " +str(score) + " Your form not optimal"
             #Delete files from server, as they take up space,
-            os.remove("/Users/nick/Documents/Class_Notes/Capstone/se4450-project-group-24/flask/"+filename)
-            os.remove("/Users/nick/Documents/Class_Notes/Capstone/se4450-project-group-24/flask/op_"+filename)
+            
 if __name__ == "__main__":
     app.run(debug=True)
