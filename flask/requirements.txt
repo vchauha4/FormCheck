@@ -1,0 +1,10 @@
+joblib==1.1.0
+numpy==1.19.5
+pandas
+requests
+tensorflow
+flask
+setuptools 
+wheel
+opencv-python==4.3.0.38
+scikit-learn
