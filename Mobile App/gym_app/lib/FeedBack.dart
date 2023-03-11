@@ -262,7 +262,7 @@ Future<String> getData() async {
 
   var request = http.MultipartRequest('POST', Uri.parse('http://192.168.2.17:5000/predict'));
 
-      request.files.add(await http.MultipartFile.fromPath('videos', '/storage/emulated/0/AudioFiles/BenchPressVId2.mp4'));
+     // request.files.add(await http.MultipartFile.fromPath('videos', '/storage/emulated/0/AudioFiles/BenchPressVId2.mp4'));
 
 
 

@@ -33,8 +33,9 @@ class _VideoPageState extends State<VideoPage> {
 
     videoPlayerController = VideoPlayerController.file(File(widget.filePath));
     await videoPlayerController.initialize();
-    await videoPlayerController.setLooping(true);
-    await videoPlayerController.play();
+    await videoPlayerController.setLooping(false);
+
+    return await videoPlayerController.play();
 
   }
   _saveImageToGallery(String path) async {
@@ -44,10 +45,10 @@ class _VideoPageState extends State<VideoPage> {
 
     // /storage/emulated/0/Android/data/com.example.gym_app/Videos/', currentPosition: time,),
 
-    String pathToSave= '/storage/emulated/0/Android/data/com.example.gym_app/Videos/';  //'/storage/emulated/0/AudioFiles/';
+    String pathToSave= '/storage/emulated/0/Android/data/com.example.gym_app/Files/';  //'/storage/emulated/0/AudioFiles/';
 
     File imageFile= File(path);
-    imageFile.copySync('/storage/emulated/0/Android/data/com.example.gym_app/Videos/$fileName');
+    imageFile.copySync('/storage/emulated/0/Android/data/com.example.gym_app/Files/$fileName');
 
     await GallerySaver.saveVideo(pathToSave+fileName);
     await imageFile.delete();//delete previousVid

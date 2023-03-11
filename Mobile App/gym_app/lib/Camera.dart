@@ -35,7 +35,7 @@ class _CameraPageState extends State<CameraPage> {
   void initCamera() async{
 
     final cameras = await availableCameras();
-    final front = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.front);
+    final front = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.back);
 
     cameraController = CameraController(front, ResolutionPreset.max);
     await cameraController.initialize();
@@ -70,6 +70,28 @@ class _CameraPageState extends State<CameraPage> {
       setState(() => isRecording = true);
     }
   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   @override
   Widget build(BuildContext context) {
