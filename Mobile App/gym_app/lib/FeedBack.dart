@@ -255,9 +255,32 @@ class _FeedBackState extends State<FeedBack> {
 
   }
 Future<String> getData() async {
-  http.Response res = await http.get(Uri.parse("https://www.google.com"));
 
-      return res.body;
+  print("GOING IN THE GET REQUEST");
+
+  // http.Response res = await http.get(Uri.parse("https://www.google.com"));
+
+  var request = http.MultipartRequest('POST', Uri.parse('http://192.168.2.17:5000/predict'));
+
+      request.files.add(await http.MultipartFile.fromPath('videos', '/storage/emulated/0/AudioFiles/BenchPressVId2.mp4'));
+
+
+
+  http.StreamedResponse response = await request.send();
+
+
+
+
+  if (response.statusCode == 200) {
+    print(await response.stream.bytesToString());
+  }
+  else {
+    print(response.reasonPhrase);
+  }
+
+  print("HERE IS THE RESPONSE"+response.reasonPhrase.toString());
+
+    return response.reasonPhrase.toString();
   }
 
 
@@ -272,7 +295,9 @@ Future<String> getData() async {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     List<String>  feedBackList=['Arms Too Wide','Bar is unbalanced'];
     double score=80.42;
-    List text=['Bench Press ','Dead Lift ','Squats ','Bench Press ','Bench Press ',];
+    List text=['Bench Press ','Squats ','Curl ',];
+
+    print(getData() );
 
 
     return Scaffold(
@@ -439,12 +464,20 @@ Future<String> getData() async {
                                       )
                                     ]
                                 );
-                              }).toList()
+
+                              }
+
+
+                              ).toList()
 
 
                           ),
                         ),
                       ),
+
+
+
+
                     ],
                   ),
 

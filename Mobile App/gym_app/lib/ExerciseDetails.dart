@@ -83,7 +83,7 @@ class _ExercisesState extends State<Exercises> {
     //         ]
     //     );
 
-    List text=['Bench Press      ','Dead Lift      ','Squats      ','Bench Press      ','Bench Press      ',];
+    List text=['Bench Press      ','Squats      ','Curl        ',];
 
 
     return Scaffold(
@@ -178,7 +178,7 @@ class _ExercisesState extends State<Exercises> {
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')),
+                          image: FileImage(File('/storage/emulated/0/AudioFiles/Benchvid2.gif')),
                           fit: BoxFit.cover,
 
                         ),

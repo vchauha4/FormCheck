@@ -23,13 +23,19 @@ class _ProfileState extends State<Profile> {
     final myData= myBox.get('user');
     int? benchCount=myData?.BenchCount;
     int? squatCount=myData?.SquatsCount;
-    int? deadLiftCount=myData?.BenchCount;
+    int? deadLiftCount=myData?.DeadliftCount;
 
     double? benchScore=myData?.BenchScore;
     double? squatScore=myData?.SquatsScore;
     double? deadLiftScore=myData?.DeadliftScore;
 
-
+    // int benchCount=22;
+    // int squatCount=45;
+    // int deadLiftCount=2;
+    //
+    // double benchScore=59;
+    // double squatScore=17;
+    // double deadLiftScore=145;
 
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     double width = MediaQuery.of(context).size.width;
@@ -186,7 +192,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Dead Lift: '+deadLiftCount.toString(),
+                                child: Text('\u2022 Squats: '+deadLiftCount.toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
@@ -197,7 +203,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Squats: '+squatCount.toString(),
+                                child: Text('\u2022 Curl: '+squatCount.toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
@@ -277,7 +283,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Dead Lift: '+deadLiftScore.toStringAsPrecision(3).toString(),
+                                child: Text('\u2022 Squats: '+deadLiftScore.toStringAsPrecision(3).toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
@@ -288,7 +294,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Squats: '+squatScore.toStringAsPrecision(3).toString(),
+                                child: Text('\u2022 Curl: '+squatScore.toStringAsPrecision(3).toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),

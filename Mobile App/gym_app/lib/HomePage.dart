@@ -1,12 +1,31 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gym_app/FeedBack.dart';
+import 'package:gym_app/InfoPageDetails.dart';
 import 'package:gym_app/profile.dart';
+import 'package:path_provider/path_provider.dart';
 import 'dart:math' as math;
 
 import 'ExerciseDetails.dart';
 import 'appbarclipper.dart';
 
 /*
+//change all deadlifts to curl, profile page and feedback.
+Fix path for download for deployment, just need pics and gif now
+Info page, he will writ em
+
+parse the correct info, and also whats required in phone
+app Icon and name
+
+
+
+
+
+
+
+
 fix all overflow
 in the feedback page we add the hive stuff
 then get that data in the stats page
@@ -41,6 +60,31 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
+  }
+  @override
+  void initState() {
+
+
+    // TODO: implement initState
+
+    // void initPlayerPermission() async {
+    //   final status = await Permission.storage.status;
+    //   const statusManageStorage = Permission.manageExternalStorage;
+    //   if (status.isDenied ||
+    //       !status.isGranted ||
+    //       !await statusManageStorage.isGranted) {
+    //     await [
+    //       Permission.storage,
+    //       Permission.mediaLibrary,
+    //       Permission.requestInstallPackages,
+    //       Permission.manageExternalStorage,
+    //       Permission.accessMediaLocation,
+    //
+    //     ].request();
+    //   }
+    //
+    // Directory directory2 = await getExternalStorageDirectory() as Directory;
+    // }
   }
 
   @override
@@ -202,17 +246,15 @@ infoPage(context) {
   Size size = MediaQuery.of(context).size;
   List images = [
     "Assets/Intermediate-bench-press-program.jpg",
-    "Assets/img.jpg",
     "Assets/img_1.jpg",
-    "Assets/Intermediate-bench-press-program.jpg",
-    "Assets/Intermediate-bench-press-program.jpg",
-  ];
+
+    "Assets/img.jpg",
+    ];
   List text = [
     'Bench Press',
-    'Dead Lift',
-    'Squats',
-    'Bench Press',
-    'Bench Press',
+     'Squats',
+    'Curl'
+
   ];
 
   return Container(
@@ -243,7 +285,7 @@ infoPage(context) {
           child: ListView.builder(
         physics: BouncingScrollPhysics(),
         shrinkWrap: true,
-        itemCount: 5,
+        itemCount: 3,
         itemBuilder: (BuildContext context, int index) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
@@ -253,9 +295,13 @@ infoPage(context) {
               onTap: () {
                 Navigator.push(
                   context,
+
+
+
+
                   MaterialPageRoute(
-                    builder: (context) => Exercises(
-                      number: 0,
+                    builder: (context) => InfoPageDetail(
+                      number: index,
                     ), // make list take a parameter for the folder
                   ),
                 );
@@ -356,17 +402,13 @@ infoPage(context) {
 playlistGrid(context) {
   List images = [
     "Assets/Intermediate-bench-press-program.jpg",
-    "Assets/img.jpg",
     "Assets/img_1.jpg",
-    "Assets/Intermediate-bench-press-program.jpg",
-    "Assets/Intermediate-bench-press-program.jpg",
+    "Assets/img.jpg",
   ];
   List text = [
     'Bench Press',
-    'Dead Lift',
     'Squats',
-    'Bench Press',
-    'Bench Press',
+    'Curl',
   ];
 
 // Text(' Workout Exercises:',  textAlign: TextAlign.start,style: TextStyle(fontSize: 29,color: Colors.white,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova')),
@@ -416,7 +458,7 @@ playlistGrid(context) {
             child: ListView.builder(
           physics: BouncingScrollPhysics(),
           shrinkWrap: true,
-          itemCount: 5,
+          itemCount: 3,
           itemBuilder: (BuildContext context, int index) {
             return Padding(
               padding: const EdgeInsets.symmetric(
@@ -424,9 +466,20 @@ playlistGrid(context) {
               child: InkWell(
                 splashColor: Colors.red[900],
                 borderRadius: BorderRadius.circular(50),
-                onTap: () {
+                onTap: () async {
+                  Directory directory2 =await getExternalStorageDirectory() as Directory;
+                  //print("TEEMP");
+                  // print(directory2);
                   Navigator.push(
                     context,
+
+                      // MaterialPageRoute(
+                      //   builder: (context) => FeedBack(
+                      //     number: 1,
+                      //   ), // make list take a parameter for the folder
+                      // )
+
+
                     MaterialPageRoute(
                       builder: (context) => Exercises(
                         number: index,
@@ -617,6 +670,23 @@ playlistGrid(context) {
     ),
   );
 }
+
+
+// void initPlayerPermission() async {
+//   final status = await Permission.storage.status;
+//   const statusManageStorage = Permission.manageExternalStorage;
+//   if (status.isDenied ||
+//       !status.isGranted ||
+//       !await statusManageStorage.isGranted) {
+//     await [
+//       Permission.storage,
+//       Permission.mediaLibrary,
+//       Permission.requestInstallPackages,
+//       Permission.manageExternalStorage,
+//       Permission.accessMediaLocation,
+//     ].request();
+//   }
+// }
 
 customAppBar(context) {
 //padding

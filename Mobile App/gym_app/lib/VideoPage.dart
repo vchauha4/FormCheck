@@ -42,10 +42,12 @@ class _VideoPageState extends State<VideoPage> {
     Directory path2 = await getApplicationDocumentsDirectory(); // to get directory path
     final fileName = basename(path); // will return you the name of your file like REC9113430186235591563.mp4
 
-    String pathToSave='/storage/emulated/0/AudioFiles/';
+    // /storage/emulated/0/Android/data/com.example.gym_app/Videos/', currentPosition: time,),
+
+    String pathToSave= '/storage/emulated/0/Android/data/com.example.gym_app/Videos/';  //'/storage/emulated/0/AudioFiles/';
 
     File imageFile= File(path);
-    imageFile.copySync('/storage/emulated/0/AudioFiles/$fileName');
+    imageFile.copySync('/storage/emulated/0/Android/data/com.example.gym_app/Videos/$fileName');
 
     await GallerySaver.saveVideo(pathToSave+fileName);
     await imageFile.delete();//delete previousVid
