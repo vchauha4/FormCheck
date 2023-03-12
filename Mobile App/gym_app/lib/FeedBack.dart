@@ -273,7 +273,7 @@ Future<String> getData() async {
 
 
 
-  request.files.add(await http.MultipartFile.fromPath('videos', '/storage/emulated/0/AudioFiles/BenchPressVId2.mp4'));
+  request.files.add(await http.MultipartFile.fromPath('videos', '/storage/emulated/0/Android/data/com.example.gym_app/Files/BenchPressVId2.mp4'));
 
 
 
@@ -373,7 +373,7 @@ String responceServer='';
 
             const jsonString ='{"recc_arra":["OBSERVATION: Youre lifting the bar all the way to the top! Good job! 178.7223807860361 , 178.7223807860361","RECCOMENDATION: Try to move youre arms further apart - They might be too close together"],"score":"28.139841895111342"}';
 
-            final data = jsonDecode(jsonString);
+            final data = jsonDecode(snapshot.data);
             print(data['recc_arra']); // foo
             print(data['score']); // 1
           double score=  double.parse(data['score'].toString());
