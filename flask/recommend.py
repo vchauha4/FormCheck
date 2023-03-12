@@ -6,12 +6,12 @@ max_right = 0
 lowest_wrist_distance = 120
 imbalancefound = False
 
-# Reccomendation code max angles squat
+# Recomendation code max angles squat
 imbalancefoundsquat = False
 lowest_feet_distance = 120
 min_depth = 40
 
-
+#Recommendations for squat improvement
 def squat_recs(image, keypoints,advice):
 
     global min_depth
@@ -55,6 +55,7 @@ def squat_recs(image, keypoints,advice):
         img_numv2 += 1
         # print(distance_of_wrists, " ", lowest_wrist_distance)
 
+#Recemmendation for bench press improvements
 def bench_recs(image, keypoints,advice):
 
     global max_left
@@ -100,8 +101,9 @@ def bench_recs(image, keypoints,advice):
         img_numv2 += 1
         # print(distance_of_wrists, " ", lowest_wrist_distance)
 
-
+#General recommendations
 def check_reccs(choice,advice):
+
     # BENCH
     if choice == 0:
         global max_left
@@ -138,7 +140,8 @@ def check_reccs(choice,advice):
         else:
             advice.append(
                 ("OBSERVATION: You are going to optimal depth with you're squats! Lowest Depth Recorded: " + str(min_depth)))
-#Helper functions to manage complexity
+
+#Calculates angles
 def calculate_angle(p1, p2, p3):
     radians = np.arctan2(p3[1] - p2[1], p3[0] - p2[0]) - np.arctan2(p1[1] - p2[1], p1[0] - p2[0])
     joint_angle = np.abs(radians * 180.0 / np.pi)
