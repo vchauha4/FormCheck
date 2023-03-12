@@ -70,8 +70,7 @@ class _ProfileState extends State<Profile> {
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: FileImage(
-                            File('/storage/emulated/0/AudioFiles/itachi.jpg')),
+                        image: AssetImage('Assets/cyber9.jpeg'),//FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -116,7 +115,7 @@ class _ProfileState extends State<Profile> {
 
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
-                      child: Text("Itachi Uchiha",
+                      child: Text("Dr.Bootic",
                         style: TextStyle(fontSize: 34,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,),

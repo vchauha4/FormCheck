@@ -103,7 +103,8 @@ class _InfoPageDetailState extends State<InfoPageDetail> {
             height: mediaQueryData.size.height,
             width: mediaQueryData.size.width,
             decoration:  BoxDecoration(
-                image: DecorationImage(image: FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')), fit: BoxFit.cover, opacity: 0.1),//HERE IS backgroundColor
+                image: DecorationImage(image: AssetImage('Assets/cyber9.jpeg')//FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg'))
+                    , fit: BoxFit.cover, opacity: 0.1),//HERE IS backgroundColor
 
                 gradient: LinearGradient(
                     colors: [Color(0xFF616161), Color(0xFF212121)],
@@ -184,7 +185,7 @@ class _InfoPageDetailState extends State<InfoPageDetail> {
           child: Container(
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: FileImage(File('/storage/emulated/0/AudioFiles/Benchvid2.gif')),
+                image: AssetImage('Assets/BenchPress4.gif'),//FileImage(File('/storage/emulated/0/AudioFiles/Benchvid2.gif')),
                 fit: BoxFit.cover,
 
               ),

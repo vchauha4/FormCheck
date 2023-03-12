@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:gym_app/HomePage.dart';
 import 'package:hive/hive.dart';
@@ -34,6 +37,8 @@ class _FeedBackState extends State<FeedBack> {
     super.dispose();
   }
 
+  late List<String>  feedBackListServer;
+  double scoreFromServer=0;
 
   Future<void> updateStats() async {
   int number=widget.number;
@@ -58,6 +63,10 @@ class _FeedBackState extends State<FeedBack> {
   //   final ceda=myBox.values.toList().cast<DataStats>();
   // print(ceda.first);
   final myData= myBox.get('user');
+
+
+
+
 
   if(number==0){
 
@@ -260,19 +269,22 @@ Future<String> getData() async {
 
   // http.Response res = await http.get(Uri.parse("https://www.google.com"));
 
-  var request = http.MultipartRequest('POST', Uri.parse('http://192.168.2.17:5000/predict'));
+  var request = http.MultipartRequest('POST', Uri.parse('http://3.14.246.24/predict?exerciseType=0'));
 
-     // request.files.add(await http.MultipartFile.fromPath('videos', '/storage/emulated/0/AudioFiles/BenchPressVId2.mp4'));
+
+
+  request.files.add(await http.MultipartFile.fromPath('videos', '/storage/emulated/0/AudioFiles/BenchPressVId2.mp4'));
 
 
 
   http.StreamedResponse response = await request.send();
 
 
+String responceServer='';
 
 
   if (response.statusCode == 200) {
-    print(await response.stream.bytesToString());
+    responceServer=await response.stream.bytesToString();
   }
   else {
     print(response.reasonPhrase);
@@ -280,7 +292,26 @@ Future<String> getData() async {
 
   print("HERE IS THE RESPONSE"+response.reasonPhrase.toString());
 
-    return response.reasonPhrase.toString();
+
+  // scoreFromServer= double.parse(response.reasonPhrase['Results'].toString());
+  print("LINE 295");
+  print(responceServer);
+
+  // String result = responceServer.substring(responceServer.indexOf('Results'));
+  // print(result);
+  //
+  // print(result.split(' '));
+  // scoreFromServer= double.parse(result.split(' ')[4]);
+
+  // setState(() {
+  //   scoreFromServer=scoreFromServer;
+  // });
+
+
+  return responceServer;
+
+//I/flutter (23612): {'Recommendations': ["OBSERVATION: You're lifting the bar all the way to the top! Good job! 178.7223807860361 , 178.7223807860361", "RECCOMENDATION: Try to move you're arms further apart - They might be too close together"],
+// 'Results': 'Your score: 28.139841895111342 Your form not optimal'}
   }
 
 
@@ -293,12 +324,21 @@ Future<String> getData() async {
   Widget build(BuildContext context) {
 
     MediaQueryData mediaQueryData = MediaQuery.of(context);
-    List<String>  feedBackList=['Arms Too Wide','Bar is unbalanced'];
+    List<String>  feedBackList2=['Arms Too Wide','Bar is unbalanced'];
     double score=80.42;
     List text=['Bench Press ','Squats ','Curl ',];
+    print('Line303 -----------------------------------------------------------------------------------------------------------------------------------' );
 
-    print(getData() );
+    // getData().then((value) => {
+    //   print(value),
+    //
+    //   // scoreFromServer=double.parse(value)
+    //
+    //
+    // });
 
+
+    // scoreFromServer= getData().then((value) => print(value)) ;
 
     return Scaffold(
         resizeToAvoidBottomInset: false,
@@ -318,177 +358,220 @@ Future<String> getData() async {
         future: getData(),
 
         builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-         return NestedScrollView(
-              headerSliverBuilder: (BuildContext context,
-                  bool innerBoxIsScrolled) {
-                return <Widget>[
-                  SliverAppBar(
-                    leading: IconButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  HomePage(), //CameraPage(number: widget.number,),// make list take a parameter for the folder
-                            ),
-                          );
-                          print("Clicked ");
-                        },
-                        icon: Icon(Icons.home, size: 30,)
+          print('Line 390');
+          print(snapshot.error);
+          print(snapshot.toString());
+          print(snapshot.connectionState);
+
+          if(snapshot.hasData){
+            // final body2 = json.encode(snapshot.data);
+            //
+            // final body = json.decode(body2);
+            // var user = jsonDecode(snapshot.data);
+            // var score=user['score'];
+            // print(score);
+
+            const jsonString ='{"recc_arra":["OBSERVATION: Youre lifting the bar all the way to the top! Good job! 178.7223807860361 , 178.7223807860361","RECCOMENDATION: Try to move youre arms further apart - They might be too close together"],"score":"28.139841895111342"}';
+
+            final data = jsonDecode(jsonString);
+            print(data['recc_arra']); // foo
+            print(data['score']); // 1
+          double score=  double.parse(data['score'].toString());
+
+            print(snapshot.data.toString());
+            // print(user.runtimeType);
+            // print(user['score']);
+            // print(user[1]);
+
+            print('Line 401');
+            print(data['recc_arra'].toString().split(',')); // 1
+
+            List<String>  feedBackList=data['recc_arra'].toString().split(',');
+
+
+            print(snapshot.connectionState);
+
+            return NestedScrollView(
+                headerSliverBuilder: (BuildContext context,
+                    bool innerBoxIsScrolled) {
+                  return <Widget>[
+                    SliverAppBar(
+                      leading: IconButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    HomePage(), //CameraPage(number: widget.number,),// make list take a parameter for the folder
+                              ),
+                            );
+                            print("Clicked ");
+                          },
+                          icon: Icon(Icons.home, size: 30,)
+
+                      ),
+                      // titleSpacing: 5,
+                      forceElevated: false,
+
+
+                      title: Center(child: Text(
+                        text[widget.number].toString() + "Feedback",
+                        textAlign: TextAlign.justify,
+                        style: TextStyle(fontSize: 28,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: 'Proxima Nova'),)),
+                      backgroundColor: const Color(0xFF111213),
+                      pinned: true,
+                      floating: true,
+                      elevation: 20,
+                      centerTitle: true,
+                      expandedHeight: 80.0,
+                      collapsedHeight: 75,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12.0),
+                      ),
+                      shadowColor: Colors.red[300],
+                      toolbarHeight: 70,
+
 
                     ),
-                    // titleSpacing: 5,
-                    forceElevated: false,
 
+                  ];
+                },
+                body: Container(
+                  decoration: BoxDecoration(
 
-                    title: Center(child: Text(
-                      text[widget.number].toString() + "Feedback",
-                      textAlign: TextAlign.justify,
-                      style: TextStyle(fontSize: 28,
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Proxima Nova'),)),
-                    backgroundColor: const Color(0xFF111213),
-                    pinned: true,
-                    floating: true,
-                    elevation: 20,
-                    centerTitle: true,
-                    expandedHeight: 80.0,
-                    collapsedHeight: 75,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12.0),
+                    //image: DecorationImage(image: FileImage(File('/storage/emulated/0/files/pictures/itachi.jpg')), fit: BoxFit.cover, opacity: 0.1),//HERE IS backgroundColor
+
+                      gradient: LinearGradient(
+                          colors: [Color(0xFF424242), Color(0xFF212121)],
+                          stops: [0.1, 0.7],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          tileMode: TileMode.repeated)),
+
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 20,
                     ),
-                    shadowColor: Colors.red[300],
-                    toolbarHeight: 70,
+                    child: Column(
+                      children: [
+                        CircularPercentIndicator(
+                          radius: 120.0,
+                          lineWidth: 13.0,
+                          animation: true,
+                          percent: score / 100,
+                          center: Text(
+                              score.toString() + "%",
+                              style: TextStyle(fontSize: 25,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Proxima Nova')),
+                          footer: Text(
+                              "Your Score",
+                              style: TextStyle(fontSize: 23,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                  fontFamily: 'Proxima Nova')
+                          ),
+                          circularStrokeCap: CircularStrokeCap.round,
+                          progressColor: Colors.red[900],
+                          backgroundColor: Colors.black54,
 
 
-                  ),
+                        ),
 
-                ];
-              },
-              body: Container(
-                decoration: BoxDecoration(
-
-                  //image: DecorationImage(image: FileImage(File('/storage/emulated/0/files/pictures/itachi.jpg')), fit: BoxFit.cover, opacity: 0.1),//HERE IS backgroundColor
-
-                    gradient: LinearGradient(
-                        colors: [Color(0xFF424242), Color(0xFF212121)],
-                        stops: [0.1, 0.7],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        tileMode: TileMode.repeated)),
-
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 20,
-                  ),
-                  child: Column(
-                    children: [
-                      CircularPercentIndicator(
-                        radius: 120.0,
-                        lineWidth: 13.0,
-                        animation: true,
-                        percent: score / 100,
-                        center: Text(
-                            score.toString() + "%",
-                            style: TextStyle(fontSize: 25,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 20),
+                          child: Flexible(
+                            child: Text(
+                                'Based on your above score, your form is considered to be optimal:',
+                                textAlign: TextAlign.start, style: TextStyle(
+                                fontSize: 24,
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Proxima Nova')),
-                        footer: Text(
-                            "Your Score",
-                            style: TextStyle(fontSize: 23,
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Proxima Nova')
-                        ),
-                        circularStrokeCap: CircularStrokeCap.round,
-                        progressColor: Colors.red[900],
-                        backgroundColor: Colors.black54,
-
-
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 20),
-                        child: Flexible(
-                          child: Text(
-                              'Based on your above score, your form is considered to be optimal:',
-                              textAlign: TextAlign.start, style: TextStyle(
-                              fontSize: 24,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Proxima Nova')),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(0, 30, 0, 5),
-                        child: Flexible(
-                          child: Text(
-                              'Feedback is provided below to improve your score:',
-                              textAlign: TextAlign.start, style: TextStyle(
-                              fontSize: 22,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontFamily: 'Proxima Nova')),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          child: Column(
-                              children:
-                              feedBackList.map((name) {
-                                return Row(
-                                    children: [
-
-                                      Text("\u2022", textAlign: TextAlign.start,
-                                          style: TextStyle(fontSize: 28,
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'Proxima Nova')),
-                                      //bullet text
-
-                                      SizedBox(width: 10,),
-                                      //space between bullet and text
-
-                                      Expanded(
-                                        child: Text(
-                                            name, textAlign: TextAlign.start,
-                                            style: TextStyle(fontSize: 23,
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontFamily: 'Proxima Nova')), //text
-                                      )
-                                    ]
-                                );
-
-                              }
-
-
-                              ).toList()
-
-
                           ),
                         ),
-                      ),
+
+                        Padding(
+                          padding: const EdgeInsets.fromLTRB(0, 30, 0, 5),
+                          child: Flexible(
+                            child: Text(
+                                'Feedback is provided below to improve your score:',
+                                textAlign: TextAlign.start, style: TextStyle(
+                                fontSize: 22,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Proxima Nova')),
+                          ),
+                        ),
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            child: Column(
+                                children:
+                                feedBackList.map((name) {
+                                  return Row(
+                                      children: [
+
+                                        Text("\u2022", textAlign: TextAlign.start,
+                                            style: TextStyle(fontSize: 28,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontFamily: 'Proxima Nova')),
+                                        //bullet text
+
+                                        SizedBox(width: 10,),
+                                        //space between bullet and text
+
+                                        Expanded(
+                                          child: Text(
+                                              name, textAlign: TextAlign.start,
+                                              style: TextStyle(fontSize: 23,
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontFamily: 'Proxima Nova')), //text
+                                        )
+                                      ]
+                                  );
+
+                                }
+
+
+                                ).toList()
+
+
+                            ),
+                          ),
+                        ),
 
 
 
 
-                    ],
+                      ],
+                    ),
+
+
                   ),
+                )
 
 
-                ),
-              )
+            );
+          }
+          else{
+            return Scaffold(body: Text(snapshot.data.toString()),);
+          }
 
+          print('LINE 360');
+          print(snapshot.hasData);
 
-          );
 
         }
+
+
       ),
 
 
