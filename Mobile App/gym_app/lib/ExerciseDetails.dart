@@ -84,6 +84,7 @@ class _ExercisesState extends State<Exercises> {
     //     );
 
     List text=['Bench Press      ','Squats      ','Curl        ',];
+    List textGifPath=['Assets/BenchPress4.gif','Assets/squats2.gif','Assets/Curl.gif'];
 
 
     return Scaffold(
@@ -123,7 +124,9 @@ class _ExercisesState extends State<Exercises> {
               height: mediaQueryData.size.height,
               width: mediaQueryData.size.width,
               decoration:  BoxDecoration(
-              image: DecorationImage(image: FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')), fit: BoxFit.cover, opacity: 0.1),//HERE IS backgroundColor
+              image: DecorationImage(image: AssetImage('Assets/cyber9.jpeg'),//FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')),
+
+                  fit: BoxFit.cover, opacity: 0.1),//HERE IS backgroundColor
 
               gradient: LinearGradient(
               colors: [Color(0xFF616161), Color(0xFF212121)],
@@ -178,7 +181,7 @@ class _ExercisesState extends State<Exercises> {
                     child: Container(
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: FileImage(File('/storage/emulated/0/AudioFiles/Benchvid2.gif')),
+                          image: AssetImage(textGifPath[widget.number]),//AssetImage('Assets/BenchPress4.gif'),AssetImage('Assets/squats2.gif') ,// FileImage(File('/storage/emulated/0/AudioFiles/Benchvid2.gif')),
                           fit: BoxFit.cover,
 
                         ),

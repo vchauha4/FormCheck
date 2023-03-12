@@ -17,7 +17,7 @@ Fix path for download for deployment, just need pics and gif now
 Info page, he will writ em
 
 parse the correct info, and also whats required in phone
-app Icon and name
+//app Icon and name
 
 
 
@@ -31,6 +31,7 @@ in the feedback page we add the hive stuff
 then get that data in the stats page
 link from the confirm page to the feedback page
 start setting up the http requests
+
 
 
 
@@ -708,7 +709,7 @@ customAppBar(context) {
                 padding: const EdgeInsets.all(appPadding / 8),
                 child: Container(
                   decoration: new BoxDecoration(
-                    color: Colors.red,
+                    color: Colors.deepPurple[800],
                     shape: BoxShape.circle,
                   ),
                   child: Padding(
@@ -735,7 +736,7 @@ customAppBar(context) {
                             child: CircleAvatar(
                               radius: 30,
                               backgroundImage: AssetImage(
-                                'Assets/itachi.jpg',
+                                'Assets/ProfilePic.png',
                               ),
                             ),
                           ),
@@ -749,7 +750,7 @@ customAppBar(context) {
                 width: size.width * 0.015,
               ),
               Text(
-                'Itachi Uchiha',
+                'Giga Chad',
                 style: TextStyle(
                     fontSize: 23,
                     color: Color(0xFFfffcfc),

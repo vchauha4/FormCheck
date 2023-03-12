@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.gym_app">
    <application
-        android:label="AI Gym"
+        android:label="FormCheck"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
