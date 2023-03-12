@@ -7,64 +7,9 @@ num_kps = 17
 input_size = 256
 
 
-COLORS= {
-    'm': (62, 74, 179),
-    'c': (3, 4, 5),
-    'y': (92, 13, 30),
-}
-EDGE_TO_COLOR = {
-    (0, 1): COLORS['m'],
-    (0, 2): COLORS['c'],
-    (1, 3): COLORS['m'],
-    (2, 4): COLORS['c'],
-    (0, 5): COLORS['m'],
-    (0, 6): COLORS['c'],
-    (5, 7): COLORS['m'],
-    (7, 9): COLORS['m'],
-    (6, 8): COLORS['c'],
-    (8, 10): COLORS['c'],
-    (5, 6): COLORS['y'],
-    (5, 11): COLORS['m'],
-    (6, 12): COLORS['c'],
-    (11, 12): COLORS['y'],
-    (11, 13): COLORS['m'],
-    (13, 15): COLORS['m'],
-    (12, 14): COLORS['c'],
-    (14, 16): COLORS['c'],
-}
-
 interpreter = tf.lite.Interpreter(
     model_path="./thunder_model.tflite")
 interpreter.allocate_tensors()
-
-
-
-def preprocess_kps(kps, height, width):
-    for i in range(len(kps)):
-        temp = kps[i][1]
-        kps[i][1] = kps[i][0] * height
-        kps[i][0] = temp * width
-    return kps
-
-def draw_pose(image, keypoints, radius=2):
-    height, width, channel = image.shape
-    kps = preprocess_kps(keypoints, height, width)
-    for c in kps:
-        x, y, s = c
-        if s > 0.2:
-            cv2.circle(image,
-                       (int(x), int(y)),
-                       radius, (41, 128, 185), -1)
-    for edge_pair, color in EDGE_TO_COLOR.items():
-        start, end = edge_pair
-        x1, y1, s1 = kps[start]
-        x2, y2, s2 = kps[end]
-        cv2.line(image,
-                 (int(x1), int(y1)),
-                 (int(x2), int(y2)),
-                 color, 1,
-                 lineType=cv2.LINE_AA)
-    return image
 
 def pad(image, width, height):
     image_width = image.shape[1]
@@ -97,9 +42,9 @@ def returnForm(score,threshold):
     else:
         return("Your score: " +str(score) + " Your form not optimal")
     
-
+#add swithc
 #Run Movenet
-def movenet(input_image):
+def movenet(input_image,choice):
     """Runs detection on an input image.
     Args:
       input_image: A [1, height, width, 3] tensor represents the input image
@@ -120,24 +65,18 @@ def movenet(input_image):
     # Get the model prediction.
     keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
 
-    datas = [calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0]
+    #Return certain angles based on user exercise
+    #0 - bench, 1 for squat
+    if (choice == 0):
+        data = [calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0]
                                    [0][12])+calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11])]
-    # dataAngles1[1][switch1].append(calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0]
-    #                                [0][12])+calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11]))
-    # angles1.append(calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11])+calculate_angle(
-    #     keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0][0][12]))
-    # angles.append(calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0][0][9])+calculate_angle(
-    #     keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10]))
-    datac = [calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0]
+    else:
+           data = [calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0]
                                  [0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10])]
-    # dataAngles[1][switch].append(calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0]
-    #                              [0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10]))
 
+    return [keypoints_with_scores,data]
 
-    return [keypoints_with_scores,datas,datac]
-
-
-def get_inference(image):
+def get_inference(image,choice):
     # Resize and pad the image to keep the aspect ratio and fit the expected size.
     image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
     image = pad(image, input_size, input_size)
@@ -146,13 +85,13 @@ def get_inference(image):
 
     input_image = np.expand_dims(input_image, axis=0)
 
-    data = movenet(input_image)
+    data = movenet(input_image,choice)
     # Run model inference.
     kps = data[0][0]
-    print("herewaaa")
-    return kps[0], image, data[1],data[2]
+ 
+    return kps[0], image, data[1]
 
-def main(vidPath, choice,switch,dataAngles,dataAngles1,advice):
+def main(vidPath, choice,switch,dataAngles,advice):
 
     cap = cv2.VideoCapture(vidPath) 
 
@@ -161,7 +100,7 @@ def main(vidPath, choice,switch,dataAngles,dataAngles1,advice):
         if not ret:
             break
 
-        curr_kp, image,dataAngles1[1][switch],dataAngles[1][switch] = get_inference(frame)
+        curr_kp, image,dataAngles[1][switch] = get_inference(frame,choice)
 
         if choice == 0:
             bench_recs(image, curr_kp,advice)
@@ -176,7 +115,7 @@ def main(vidPath, choice,switch,dataAngles,dataAngles1,advice):
     cap.release()
     cv2.destroyAllWindows()
 
-def toCSV(vidPath, choice,dataAngles,dataAngles1,switch,advice):
+def toCSV(vidPath, choice,dataAngles,switch,advice):
     vidpath1 = ['', vidPath]
 
     dataAngles[0][0].append(list(range(0, len(dataAngles[1][0]))))  # first vid
@@ -188,7 +127,7 @@ def toCSV(vidPath, choice,dataAngles,dataAngles1,switch,advice):
 
         switch = switch + 1
 
-        main(vidpath1[num], choice,switch,dataAngles,dataAngles1,advice)  # takes a list of vids
+        main(vidpath1[num], choice,switch,dataAngles,advice)  # takes a list of vids
 
         dataAngles[0][num].append(list(range(0, len(dataAngles[1][num]))))
 
@@ -210,7 +149,7 @@ def toCSV(vidPath, choice,dataAngles,dataAngles1,switch,advice):
     # Convert to csv
     df.to_csv("./UserVid.csv")
 
-
+#Returns score of form given some data
 def predictForm(pred_y_data,choice):
     if (choice == 0):
         sort_y_data = sorted(pred_y_data)
