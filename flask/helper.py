@@ -1,15 +1,13 @@
 import numpy as np
 import cv2
 import tensorflow as tf
-from recommend import squat_recs,bench_recs,check_reccs,calculate_angle
+from recommend import squat_recs,bench_recs,check_reccs,calculate_angle,curl_recs
 import pandas as pd
 num_kps = 17
 input_size = 256
 
 
-interpreter = tf.lite.Interpreter(
-    model_path="./thunder_model.tflite")
-interpreter.allocate_tensors()
+
 
 def pad(image, width, height):
     image_width = image.shape[1]
@@ -38,13 +36,18 @@ def pad(image, width, height):
 
 def returnForm(score,threshold):
     if(score > threshold):
-        return("Your score: " +str(score) + " Your form is optimal")
+        # return("Your score: " +str(score) + " Your form is optimal")
+        return (score)
     else:
-        return("Your score: " +str(score) + " Your form not optimal")
-    
+        return (score)
+        # return("Your score: " +str(score) + " Your form not optimal")
+
 #add swithc
 #Run Movenet
 def movenet(input_image,choice):
+
+    interpreter = tf.lite.Interpreter(model_path="./thunder_model.tflite")
+    interpreter.allocate_tensors()
     """Runs detection on an input image.
     Args:
       input_image: A [1, height, width, 3] tensor represents the input image
@@ -70,10 +73,13 @@ def movenet(input_image,choice):
     if (choice == 0):
         data = [calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0]
                                    [0][12])+calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11])]
-    else:
+    elif(choice == 1):
            data = [calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0]
                                  [0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10])]
+    elif(choice == 2):
+        data = calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0][0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10])
 
+    #dataAngles[0][switch].append(keypoints_with_scores[0][0][9][1])
     return [keypoints_with_scores,data]
 
 def get_inference(image,choice):
@@ -91,7 +97,7 @@ def get_inference(image,choice):
  
     return kps[0], image, data[1]
 
-def main(vidPath, choice,switch,dataAngles,advice):
+def main(vidPath, choice,switch,dataAngles,recommendation,observation):
 
     cap = cv2.VideoCapture(vidPath) 
 
@@ -103,19 +109,21 @@ def main(vidPath, choice,switch,dataAngles,advice):
         curr_kp, image,dataAngles[1][switch] = get_inference(frame,choice)
 
         if choice == 0:
-            bench_recs(image, curr_kp,advice)
+            bench_recs(curr_kp)
         elif choice == 1:
-            squat_recs(image, curr_kp,advice)
+            squat_recs(curr_kp)
+        elif choice == 2:
+            curl_recs(curr_kp)
 
         k = cv2.waitKey(1)
         if k == ord('q') or k == 27:
             break
 
-    check_reccs(choice,advice)
+    check_reccs(choice,recommendation,observation)
     cap.release()
     cv2.destroyAllWindows()
 
-def toCSV(vidPath, choice,dataAngles,switch,advice):
+def toCSV(vidPath, choice,dataAngles,switch,recommendation,observation):
     vidpath1 = ['', vidPath]
 
     dataAngles[0][0].append(list(range(0, len(dataAngles[1][0]))))  # first vid
@@ -127,7 +135,7 @@ def toCSV(vidPath, choice,dataAngles,switch,advice):
 
         switch = switch + 1
 
-        main(vidpath1[num], choice,switch,dataAngles,advice)  # takes a list of vids
+        main(vidpath1[num], choice,switch,dataAngles,recommendation,observation)  # takes a list of vids
 
         dataAngles[0][num].append(list(range(0, len(dataAngles[1][num]))))
 
@@ -156,6 +164,17 @@ def predictForm(pred_y_data,choice):
         mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
         score = (((1-mean_val_of_highest_ten))*100)+10
         return returnForm(score, 65)
+    elif(choice == 2):
+        sort_y_data = sorted(pred_y_data)
+        mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
+        print("Your score:")
+        score = (((1-mean_val_of_highest_ten))*100)+10
+        print(score)
+        #print(mean_val_of_highest_ten)
+        if(score > 65):
+            print("Your form is optimal")
+        else:
+            print("Your form not optimal")
     else:
         rem_zero_pred = pred_y_data[(pred_y_data >= 0.1)]
         normal_mean = np.mean(rem_zero_pred)

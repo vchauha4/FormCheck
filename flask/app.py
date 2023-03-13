@@ -2,6 +2,7 @@ from flask import Flask, request
 import numpy as np
 import pandas as pd
 import joblib
+import json
 import os
 
 #Functions put into other files to manage complexity
@@ -37,7 +38,8 @@ def root():
 def predict():
 
     #I would like to move these out of this file for better organization
-    advice = []
+    recommendation = []
+    observation = []
     dataAngles = [[[], []], [[], []]]
     switch = 0
 
@@ -46,7 +48,7 @@ def predict():
 
     # 0 is bench, 1 is squat
     #Don't accept anything else for now
-    if (int(request.args.get('exerciseType')) == 0 or int(request.args.get('exerciseType')) == 1):
+    if (int(request.args.get('exerciseType')) == 0 or int(request.args.get('exerciseType')) == 1 or int(request.args.get('exerciseType')) == 2):
         choice = int(request.args.get('exerciseType'))
         # Get video object, videos is the form data with the video
         f = request.files['videos']
@@ -61,13 +63,15 @@ def predict():
 
         #Convert the video to csv angle file
         #Further elaboration in module files
-        toCSV(CURRENT_PATH + filename, choice,dataAngles,switch,advice)
+        toCSV(CURRENT_PATH + filename, choice,dataAngles,switch,recommendation,observation)
 
         #Load different modules dependent on choice
         if (choice == 0):
             rf = joblib.load("./model1.joblib")
+        elif (choice == 2):
+            rf = joblib.load("./model1.joblib")
         else:
-            rf = joblib.load("./squat-model1.joblib")
+            rf = joblib.load("./rfmodel-squat.joblib")
 
         # Read CSV data
         dfv2 = pd.read_csv("./UserVid.csv")
@@ -83,11 +87,15 @@ def predict():
 
         #Build reponse object, an object makes structuring it easier than a string
         #Better organization + versatility
-        response["Recommendations"] = advice
-        response["Results"] = predictForm(pred_y_data,choice)
+        response["recc_arra"] = recommendation
+        response["observation"] = observation
+        response["score"] = "{:.2f}".format(predictForm(pred_y_data,choice))
+
 
         #Parse object to string
-        return str(response)
+        
+
+        return str(json.dumps(response))
     else:
         return "Please send valid POST request, find proper format at https://github.com"
 
