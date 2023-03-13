@@ -1,7 +1,7 @@
 import numpy as np
 import cv2
 import tensorflow as tf
-from recommend import squat_recs,bench_recs,check_reccs,calculate_angle
+from recommend import squat_recs,bench_recs,check_reccs,calculate_angle,curl_recs
 import pandas as pd
 num_kps = 17
 input_size = 256
@@ -73,10 +73,13 @@ def movenet(input_image,choice):
     if (choice == 0):
         data = [calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0]
                                    [0][12])+calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11])]
-    else:
+    elif(choice == 1):
            data = [calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0]
                                  [0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10])]
+    elif(choice == 2):
+        data = calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0][0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10])
 
+    #dataAngles[0][switch].append(keypoints_with_scores[0][0][9][1])
     return [keypoints_with_scores,data]
 
 def get_inference(image,choice):
@@ -109,6 +112,8 @@ def main(vidPath, choice,switch,dataAngles,recommendation,observation):
             bench_recs(curr_kp)
         elif choice == 1:
             squat_recs(curr_kp)
+        elif choice == 2:
+            curl_recs(curr_kp)
 
         k = cv2.waitKey(1)
         if k == ord('q') or k == 27:
@@ -159,6 +164,17 @@ def predictForm(pred_y_data,choice):
         mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
         score = (((1-mean_val_of_highest_ten))*100)+10
         return returnForm(score, 65)
+    elif(choice == 2):
+        sort_y_data = sorted(pred_y_data)
+        mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
+        print("Your score:")
+        score = (((1-mean_val_of_highest_ten))*100)+10
+        print(score)
+        #print(mean_val_of_highest_ten)
+        if(score > 65):
+            print("Your form is optimal")
+        else:
+            print("Your form not optimal")
     else:
         rem_zero_pred = pred_y_data[(pred_y_data >= 0.1)]
         normal_mean = np.mean(rem_zero_pred)

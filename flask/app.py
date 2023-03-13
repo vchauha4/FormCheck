@@ -48,7 +48,7 @@ def predict():
 
     # 0 is bench, 1 is squat
     #Don't accept anything else for now
-    if (int(request.args.get('exerciseType')) == 0 or int(request.args.get('exerciseType')) == 1):
+    if (int(request.args.get('exerciseType')) == 0 or int(request.args.get('exerciseType')) == 1 or int(request.args.get('exerciseType')) == 2):
         choice = int(request.args.get('exerciseType'))
         # Get video object, videos is the form data with the video
         f = request.files['videos']
@@ -68,8 +68,10 @@ def predict():
         #Load different modules dependent on choice
         if (choice == 0):
             rf = joblib.load("./model1.joblib")
+        elif (choice == 2):
+            rf = joblib.load("./model1.joblib")
         else:
-            rf = joblib.load("./squat-model1.joblib")
+            rf = joblib.load("./rfmodel-squat.joblib")
 
         # Read CSV data
         dfv2 = pd.read_csv("./UserVid.csv")
