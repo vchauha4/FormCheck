@@ -12,6 +12,22 @@ import 'ExerciseDetails.dart';
 import 'appbarclipper.dart';
 
 /*
+//add loading screen
+
+//make sure deployable any phone, //make the stats =0 at first.
+arrange dimensions on phone
+
+//Info page
+//seperate for each Exercise in FeedBack page
+
+
+
+
+
+
+
+
+
 //change all deadlifts to curl, profile page and feedback.
 Fix path for download for deployment, just need pics and gif now
 Info page, he will writ em
@@ -750,7 +766,7 @@ customAppBar(context) {
                 width: size.width * 0.015,
               ),
               Text(
-                'Giga Chad',
+                'JoJo Chad',
                 style: TextStyle(
                     fontSize: 23,
                     color: Color(0xFFfffcfc),

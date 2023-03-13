@@ -21,13 +21,13 @@ class _ProfileState extends State<Profile> {
   @override
   Widget build(BuildContext context) {
     final myData= myBox.get('user');
-    int? benchCount=myData?.BenchCount;
-    int? squatCount=myData?.SquatsCount;
-    int? deadLiftCount=myData?.DeadliftCount;
+    int? benchCount=myData?.BenchCount ??= 0;
+    int? squatCount=myData?.SquatsCount??= 0;
+    int? deadLiftCount=myData?.DeadliftCount??= 0;
 
-    double? benchScore=myData?.BenchScore;
-    double? squatScore=myData?.SquatsScore;
-    double? deadLiftScore=myData?.DeadliftScore;
+    double? benchScore=myData?.BenchScore??= 0;
+    double? squatScore=myData?.SquatsScore??= 0;
+    double? deadLiftScore=myData?.DeadliftScore??= 0;
 
     // int benchCount=22;
     // int squatCount=45;
@@ -115,7 +115,7 @@ class _ProfileState extends State<Profile> {
 
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
-                      child: Text("Dr.Bootic",
+                      child: Text("JoJo Chad",
                         style: TextStyle(fontSize: 34,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,),

@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gym_app/HomePage.dart';
 import 'package:hive/hive.dart';
 import 'package:percent_indicator/percent_indicator.dart';
@@ -265,53 +266,159 @@ class _FeedBackState extends State<FeedBack> {
   }
 Future<String> getData() async {
 
-  print("GOING IN THE GET REQUEST");
+    if(widget.number==0) {
+      print("GOING IN THE GET REQUEST");
 
-  // http.Response res = await http.get(Uri.parse("https://www.google.com"));
+      // http.Response res = await http.get(Uri.parse("https://www.google.com"));
 
-  var request = http.MultipartRequest('POST', Uri.parse('http://3.14.246.24/predict?exerciseType=0'));
-
-
-
-  request.files.add(await http.MultipartFile.fromPath('videos', '/storage/emulated/0/Android/data/com.example.gym_app/Files/BenchPressVId2.mp4'));
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('http://3.14.246.24/predict?exerciseType=0'));
 
 
-
-  http.StreamedResponse response = await request.send();
-
-
-String responceServer='';
+      request.files.add(await http.MultipartFile.fromPath('videos',
+          '/storage/emulated/0/Android/data/com.example.gym_app/Files/BenchPressVId2.mp4'));
 
 
-  if (response.statusCode == 200) {
-    responceServer=await response.stream.bytesToString();
-  }
-  else {
-    print(response.reasonPhrase);
-  }
-
-  print("HERE IS THE RESPONSE"+response.reasonPhrase.toString());
+      http.StreamedResponse response = await request.send();
 
 
-  // scoreFromServer= double.parse(response.reasonPhrase['Results'].toString());
-  print("LINE 295");
-  print(responceServer);
-
-  // String result = responceServer.substring(responceServer.indexOf('Results'));
-  // print(result);
-  //
-  // print(result.split(' '));
-  // scoreFromServer= double.parse(result.split(' ')[4]);
-
-  // setState(() {
-  //   scoreFromServer=scoreFromServer;
-  // });
+      String responceServer = '';
 
 
-  return responceServer;
+      if (response.statusCode == 200) {
+        responceServer = await response.stream.bytesToString();
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
+      print("HERE IS THE RESPONSE" + response.reasonPhrase.toString());
+
+
+      // scoreFromServer= double.parse(response.reasonPhrase['Results'].toString());
+      print("LINE 295");
+      print(responceServer);
+
+      // String result = responceServer.substring(responceServer.indexOf('Results'));
+      // print(result);
+      //
+      // print(result.split(' '));
+      // scoreFromServer= double.parse(result.split(' ')[4]);
+
+      // setState(() {
+      //   scoreFromServer=scoreFromServer;
+      // });
+
+
+      return responceServer;
 
 //I/flutter (23612): {'Recommendations': ["OBSERVATION: You're lifting the bar all the way to the top! Good job! 178.7223807860361 , 178.7223807860361", "RECCOMENDATION: Try to move you're arms further apart - They might be too close together"],
-// 'Results': 'Your score: 28.139841895111342 Your form not optimal'}
+// 'Results': 'Your score: 28.139841895111342 Your form not optimal'}}
+    }
+    else if(widget.number==1)
+    {
+        print("GOING IN THE GET REQUEST");
+
+        // http.Response res = await http.get(Uri.parse("https://www.google.com"));
+
+        var request = http.MultipartRequest(
+            'POST', Uri.parse('http://3.14.246.24/predict?exerciseType=0'));
+
+
+        request.files.add(await http.MultipartFile.fromPath('videos',
+            '/storage/emulated/0/Android/data/com.example.gym_app/Files/BenchPressVId2.mp4'));
+
+
+        http.StreamedResponse response = await request.send();
+
+
+        String responceServer = '';
+
+
+        if (response.statusCode == 200) {
+          responceServer = await response.stream.bytesToString();
+        }
+        else {
+          print(response.reasonPhrase);
+        }
+
+        print("HERE IS THE RESPONSE" + response.reasonPhrase.toString());
+
+
+        // scoreFromServer= double.parse(response.reasonPhrase['Results'].toString());
+        print("LINE 295");
+        print(responceServer);
+
+        // String result = responceServer.substring(responceServer.indexOf('Results'));
+        // print(result);
+        //
+        // print(result.split(' '));
+        // scoreFromServer= double.parse(result.split(' ')[4]);
+
+        // setState(() {
+        //   scoreFromServer=scoreFromServer;
+        // });
+
+
+        return responceServer;
+
+//I/flutter (23612): {'Recommendations': ["OBSERVATION: You're lifting the bar all the way to the top! Good job! 178.7223807860361 , 178.7223807860361", "RECCOMENDATION: Try to move you're arms further apart - They might be too close together"],
+// 'Results': 'Your score: 28.139841895111342 Your form not optimal'}}
+      }
+    else if(widget.number==2)
+    {
+      print("GOING IN THE GET REQUEST");
+
+      // http.Response res = await http.get(Uri.parse("https://www.google.com"));
+
+      var request = http.MultipartRequest(
+          'POST', Uri.parse('http://3.14.246.24/predict?exerciseType=0'));
+
+
+      request.files.add(await http.MultipartFile.fromPath('videos',
+          '/storage/emulated/0/Android/data/com.example.gym_app/Files/BenchPressVId2.mp4'));
+
+
+      http.StreamedResponse response = await request.send();
+
+
+      String responceServer = '';
+
+
+      if (response.statusCode == 200) {
+        responceServer = await response.stream.bytesToString();
+      }
+      else {
+        print(response.reasonPhrase);
+      }
+
+      print("HERE IS THE RESPONSE" + response.reasonPhrase.toString());
+
+
+      // scoreFromServer= double.parse(response.reasonPhrase['Results'].toString());
+      print("LINE 295");
+      print(responceServer);
+
+      // String result = responceServer.substring(responceServer.indexOf('Results'));
+      // print(result);
+      //
+      // print(result.split(' '));
+      // scoreFromServer= double.parse(result.split(' ')[4]);
+
+      // setState(() {
+      //   scoreFromServer=scoreFromServer;
+      // });
+
+
+      return responceServer;
+
+//I/flutter (23612): {'Recommendations': ["OBSERVATION: You're lifting the bar all the way to the top! Good job! 178.7223807860361 , 178.7223807860361", "RECCOMENDATION: Try to move you're arms further apart - They might be too close together"],
+// 'Results': 'Your score: 28.139841895111342 Your form not optimal'}}
+    }
+
+
+
+    return 'null';
   }
 
 
@@ -562,7 +669,25 @@ String responceServer='';
             );
           }
           else{
-            return Scaffold(body: Text(snapshot.data.toString()),);
+            return Container(
+                child: Center(
+                    child: SpinKitFadingCube(
+                          color: Colors.blue[900],
+                          size: 90.0
+                      )
+
+
+                    // Center(
+                    //   child: CircularProgressIndicator(
+                    //     color: Colors.blue,
+                    //   ),
+                    // ),
+                    // SpinKitFadingCube(
+                    //     color: Colors.lightGreen[100],
+                    //     size: 50.0
+                    // )
+                )
+            );;
           }
 
           print('LINE 360');
