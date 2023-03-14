@@ -1,142 +1,17 @@
 import numpy as np
-import cv2
-import tensorflow as tf
-from recommend import squat_recs,bench_recs,check_reccs,calculate_angle,curl_recs
 import pandas as pd
-num_kps = 17
-input_size = 256
+import joblib
 
+#This file has all functions that were originally given from tensorflow sample code
+from keypointDetection import main
 
-
-
-def pad(image, width, height):
-    image_width = image.shape[1]
-    image_height = image.shape[0]
-    # get resize ratio
-    resize_ratio = min(width / image_width, height / image_height)
-
-    # compute new height and width
-    new_width = int(resize_ratio * image_width)
-    new_height = int(resize_ratio * image_height)
-    new_img = cv2.resize(image, (new_width, new_height))
-
-    # compute padded height and width
-    pad_width = (width - new_width) // 2
-    pad_height = (height - new_height) // 2
-
-    padded_image = cv2.copyMakeBorder(new_img,
-                                      pad_height,
-                                      pad_height,
-                                      pad_width,
-                                      pad_width,
-                                      cv2.BORDER_REPLICATE,
-                                      value=0)
-
-    return cv2.resize(padded_image, (input_size, input_size))
-
-def returnForm(score,threshold):
-    if(score > threshold):
-        # return("Your score: " +str(score) + " Your form is optimal")
-        return (score)
-    else:
-        return (score)
-        # return("Your score: " +str(score) + " Your form not optimal")
-
-#add swithc
-#Run Movenet
-def movenet(input_image,choice):
-
-    interpreter = tf.lite.Interpreter(model_path="./thunder_model.tflite")
-    interpreter.allocate_tensors()
-    """Runs detection on an input image.
-    Args:
-      input_image: A [1, height, width, 3] tensor represents the input image
-        pixels. Note that the height/width should already be resized and match the
-        expected input resolution of the model before passing into this function.
-    Returns:
-      A [1, 1, 17, 3] float numpy array representing the predicted keypoint
-      coordinates and scores.
-    """
-    # TF Lite format expects tensor type of uint8.
-    input_image = tf.cast(input_image, dtype=tf.uint8)
-    input_details = interpreter.get_input_details()
-    output_details = interpreter.get_output_details()
-
-    interpreter.set_tensor(input_details[0]['index'], input_image.numpy())
-    interpreter.invoke()  # Invoke inference.
-
-    # Get the model prediction.
-    keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
-
-    #Return certain angles based on user exercise
-    #0 - bench, 1 for squat
-    if (choice == 0):
-        data = [calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0]
-                                   [0][12])+calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11])]
-    elif(choice == 1):
-           data =  [calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0][0][12])+calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11]),calculate_angle(keypoints_with_scores[0][0][14], (keypoints_with_scores[0][0][12]+keypoints_with_scores[0][0][11])/2, keypoints_with_scores[0][0][13])]
-    elif(choice == 2):
-        data = calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0][0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10])
-
-    #dataAngles[0][switch].append(keypoints_with_scores[0][0][9][1])
-    return [keypoints_with_scores,data]
-
-def get_inference(image,choice):
-    # Resize and pad the image to keep the aspect ratio and fit the expected size.
-    image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-    image = pad(image, input_size, input_size)
-    image = cv2.resize(image, (input_size, input_size))
-    input_image = image
-
-    input_image = np.expand_dims(input_image, axis=0)
-
-    data = movenet(input_image,choice)
-    # Run model inference.
-    kps = data[0][0]
- 
-    return kps[0], image, data[1]
-
-def main(vidPath, choice,switch,dataAngles,recommendation,observation):
-
-    cap = cv2.VideoCapture(vidPath) 
-
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
-
-
-        if choice == 0:
-            test = []
-            curr_kp, image,test = get_inference(frame,choice)
-            dataAngles[1][switch].append(test) 
-            bench_recs(curr_kp)
-        elif choice == 1:
-      
-            test = []
-            curr_kp, image,test = get_inference(frame,choice)
-            dataAngles[1][switch].append(test[0]) 
-            dataAngles[2][switch].append(test[0]) 
-            squat_recs(curr_kp)
-        elif choice == 2:
-            test = []
-            curr_kp, image,test = get_inference(frame,choice)
-            dataAngles[1][switch].append(test) 
-            curl_recs(curr_kp)
-
-        k = cv2.waitKey(1)
-        if k == ord('q') or k == 27:
-            break
-
-    check_reccs(choice,recommendation,observation)
-    cap.release()
-    cv2.destroyAllWindows()
-
-def toCSV(vidPath, choice,switch,recommendation,observation):
-    vidpath1 = ['', vidPath]
+#Convert video to a csv file with frames corresponding to angle calculations
+def toCSV(vidPath, choice, recommendation, observation):
+    switch = 0
+    vidpath1 = ["", vidPath]
 
     if choice == 0 or choice == 2:
-        dataAngles = [[[],[]],[[],[]]]
+        dataAngles = [[[], []], [[], []]]
         dataAngles[0][0].append(list(range(0, len(dataAngles[1][0]))))  # first vid
 
         for num in range(1, (len(vidpath1))):
@@ -146,13 +21,15 @@ def toCSV(vidPath, choice,switch,recommendation,observation):
 
             switch = switch + 1
 
-            main(vidpath1[num], choice,switch,dataAngles,recommendation,observation)  # takes a list of vids
+            main(
+                vidpath1[num], choice, switch, dataAngles, recommendation, observation
+            )  # takes a list of vids
 
             dataAngles[0][num].append(list(range(0, len(dataAngles[1][num]))))
 
-            ratio = 40/len(dataAngles[1][num])
+            ratio = 40 / len(dataAngles[1][num])
             for i in range(0, len(dataAngles[1][num])):
-                dataAngles[0][num][0][i] = dataAngles[0][num][0][i]*ratio
+                dataAngles[0][num][0][i] = dataAngles[0][num][0][i] * ratio
                 array0 = []
         array1 = []
         NumOfVids = len(vidpath1)
@@ -163,78 +40,81 @@ def toCSV(vidPath, choice,switch,recommendation,observation):
 
         combinedFirstVidTo2darray = list(zip(array0, array1))  # HERE for first vid only
 
-        df = pd.DataFrame(combinedFirstVidTo2darray, columns=["Frames", 'Angles'])
+        df = pd.DataFrame(combinedFirstVidTo2darray, columns=["Frames", "Angles"])
     elif choice == 1:
         print(vidPath)
-        dataAngles = [[[],[]],[[],[]],[[],[]]]
-        dataAngles[0][0].append(list(range(0, len(dataAngles[1][0]))))#first vid
+        dataAngles = [[[], []], [[], []], [[], []]]
+        dataAngles[0][0].append(list(range(0, len(dataAngles[1][0]))))  # first vid
 
-        for num in range(1,(len(vidpath1))):
+        for num in range(1, (len(vidpath1))):
             dataAngles[0].append([])
             dataAngles[1].append([])
             dataAngles[2].append([])
-        #    switch=num#switch to 2nd vid
-            ratio=0
-            switch+=1
-            #print(num)
-            
-            
-            main(vidpath1[num], choice,switch,dataAngles,recommendation,observation)
 
+            ratio = 0
+            switch += 1
+
+            main(vidpath1[num], choice, switch, dataAngles, recommendation, observation)
 
             dataAngles[0][num].append(list(range(0, len(dataAngles[1][num]))))
 
-            #print(len(dataAngles[1][num]))
-            
-            ratio = 40/len(dataAngles[1][num])
-                
-            #print(len(dataAngles[1][0]),"............",len(dataAngles[1][num]),'....RATIO',ratio)
-            
-            for i in range (0, len(dataAngles[1][num])):
-                dataAngles[0][num][0][i] = dataAngles[0][num][0][i]*ratio
+            ratio = 40 / len(dataAngles[1][num])
 
+            for i in range(0, len(dataAngles[1][num])):
+                dataAngles[0][num][0][i] = dataAngles[0][num][0][i] * ratio
 
-        array0=[]
-        array1=[]
-        array2=[]
-        NumOfVids=len(vidpath1)
-        #For multiple vids
+        array0 = []
+        array1 = []
+        array2 = []
+        NumOfVids = len(vidpath1)
+        # For multiple vids
         for num in range(NumOfVids):
-            array0=np.append(array0, dataAngles[0][num][0])
-            array1=np.append(array1, dataAngles[1][num])
-            array2=np.append(array2, dataAngles[2][num])
+            array0 = np.append(array0, dataAngles[0][num][0])
+            array1 = np.append(array1, dataAngles[1][num])
+            array2 = np.append(array2, dataAngles[2][num])
 
+        combinedFirstVidTo2darray = list(
+            zip(array0, array1, array2)
+        ) 
 
-
-        combinedFirstVidTo2darray=list(zip(array0, array1, array2))#HERE for first vid only 
-        numArray=np.array(combinedFirstVidTo2darray, dtype=object)
-
-        df = pd.DataFrame(combinedFirstVidTo2darray,columns=["Frames",'Angles','Angles-Hip'])#.stack().rename_axis(['x', 'y'])#.reset_index(name='val')
+        df = pd.DataFrame(
+            combinedFirstVidTo2darray, columns=["Frames", "Angles", "Angles-Hip"]
+        ) 
 
     # Convert to csv
-    print(df)
     df.to_csv("./UserVid.csv")
 
-#Returns score of form given some data
-def predictForm(pred_y_data,choice):
-    if (choice == 0):
-        sort_y_data = sorted(pred_y_data)
-        mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
-        score = (((1-mean_val_of_highest_ten))*100)+10
-        return returnForm(score, 65)
-    elif(choice == 2):
-        sort_y_data = sorted(pred_y_data)
-        mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
-        print("Your score:")
-        score = (((1-mean_val_of_highest_ten))*100)+10
-        print(score)
-        #print(mean_val_of_highest_ten)
-        if(score > 65):
-            print("Your form is optimal")
-        else:
-            print("Your form not optimal")
+
+# Returns score of form given some data
+#Predicts user from
+def predictForm(choice):
+    
+    dfv2 = pd.read_csv("./UserVid.csv")
+
+    # Load different modules dependent on choice
+    if choice == 0:
+        rf = joblib.load("./model1.joblib")
+        wrongarrayX = dfv2[["Frames", "Angles"]].values
+    elif choice == 2:
+        rf = joblib.load("./model1.joblib")  # Sub in correct model
+        wrongarrayX = dfv2[["Frames", "Angles"]].values
     else:
-        rem_zero_pred = pred_y_data[(pred_y_data >= 0.1)]
-        normal_mean = np.mean(rem_zero_pred)
-        score = (1-normal_mean)*100
-        return returnForm(score, 50)
+        rf = joblib.load("./rfmodel-squat.joblib")
+        wrongarrayX = dfv2[["Frames", "Angles", "Angles-Hip"]].values
+
+    # Predict based on the values
+    pred_y_data = rf.predict(wrongarrayX)
+    sort_y_data = sorted(pred_y_data)
+    mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
+
+    if choice == 2 or choice == 0:
+        score = (((1 - mean_val_of_highest_ten)) * 100) + 10
+    else:
+        score = ((1 - mean_val_of_highest_ten)) * 100
+        if score > 60:
+            score += 10
+        elif score < 50:
+            score -= 10
+
+    
+    return "{:.2f}".format(score)
