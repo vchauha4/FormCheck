@@ -63,20 +63,24 @@ def predict():
 
         #Convert the video to csv angle file
         #Further elaboration in module files
-        toCSV(CURRENT_PATH + filename, choice,dataAngles,switch,recommendation,observation)
+        toCSV(CURRENT_PATH + filename, choice,switch,recommendation,observation)
 
+        dfv2 = pd.read_csv("./UserVid.csv")
         #Load different modules dependent on choice
         if (choice == 0):
             rf = joblib.load("./model1.joblib")
+                 # Read CSV data
+            wrongarrayX = dfv2[['Frames', 'Angles']].values
         elif (choice == 2):
-            rf = joblib.load("./model1.joblib")
+            rf = joblib.load("./curl.joblib")
+            wrongarrayX = dfv2[['Frames', 'Angles']].values
         else:
             rf = joblib.load("./rfmodel-squat.joblib")
+            wrongarrayX = dfv2[['Frames', 'Angles','Angles-Hip']].values
 
-        # Read CSV data
-        dfv2 = pd.read_csv("./UserVid.csv")
-        wrongarrayX = dfv2[['Frames', 'Angles']].values
-
+   
+        print(type(choice))
+        print(choice)
         # Predict based on the values
         pred_y_data = rf.predict(wrongarrayX)
 

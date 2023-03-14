@@ -74,8 +74,7 @@ def movenet(input_image,choice):
         data = [calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0]
                                    [0][12])+calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11])]
     elif(choice == 1):
-           data = [calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0]
-                                 [0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10])]
+           data =  [calculate_angle(keypoints_with_scores[0][0][16], keypoints_with_scores[0][0][14], keypoints_with_scores[0][0][12])+calculate_angle(keypoints_with_scores[0][0][15], keypoints_with_scores[0][0][13], keypoints_with_scores[0][0][11]),calculate_angle(keypoints_with_scores[0][0][14], (keypoints_with_scores[0][0][12]+keypoints_with_scores[0][0][11])/2, keypoints_with_scores[0][0][13])]
     elif(choice == 2):
         data = calculate_angle(keypoints_with_scores[0][0][5], keypoints_with_scores[0][0][7], keypoints_with_scores[0][0][9])+calculate_angle(keypoints_with_scores[0][0][6], keypoints_with_scores[0][0][8], keypoints_with_scores[0][0][10])
 
@@ -106,13 +105,23 @@ def main(vidPath, choice,switch,dataAngles,recommendation,observation):
         if not ret:
             break
 
-        curr_kp, image,dataAngles[1][switch] = get_inference(frame,choice)
 
         if choice == 0:
+            test = []
+            curr_kp, image,test = get_inference(frame,choice)
+            dataAngles[1][switch].append(test) 
             bench_recs(curr_kp)
         elif choice == 1:
+      
+            test = []
+            curr_kp, image,test = get_inference(frame,choice)
+            dataAngles[1][switch].append(test[0]) 
+            dataAngles[2][switch].append(test[0]) 
             squat_recs(curr_kp)
         elif choice == 2:
+            test = []
+            curr_kp, image,test = get_inference(frame,choice)
+            dataAngles[1][switch].append(test) 
             curl_recs(curr_kp)
 
         k = cv2.waitKey(1)
@@ -123,38 +132,87 @@ def main(vidPath, choice,switch,dataAngles,recommendation,observation):
     cap.release()
     cv2.destroyAllWindows()
 
-def toCSV(vidPath, choice,dataAngles,switch,recommendation,observation):
+def toCSV(vidPath, choice,switch,recommendation,observation):
     vidpath1 = ['', vidPath]
 
-    dataAngles[0][0].append(list(range(0, len(dataAngles[1][0]))))  # first vid
+    if choice == 0 or choice == 2:
+        dataAngles = [[[],[]],[[],[]]]
+        dataAngles[0][0].append(list(range(0, len(dataAngles[1][0]))))  # first vid
 
-    for num in range(1, (len(vidpath1))):
-        dataAngles[0].append([])
-        dataAngles[1].append([])
-        ratio = 0
+        for num in range(1, (len(vidpath1))):
+            dataAngles[0].append([])
+            dataAngles[1].append([])
+            ratio = 0
 
-        switch = switch + 1
+            switch = switch + 1
 
-        main(vidpath1[num], choice,switch,dataAngles,recommendation,observation)  # takes a list of vids
+            main(vidpath1[num], choice,switch,dataAngles,recommendation,observation)  # takes a list of vids
 
-        dataAngles[0][num].append(list(range(0, len(dataAngles[1][num]))))
+            dataAngles[0][num].append(list(range(0, len(dataAngles[1][num]))))
 
-        ratio = 40/len(dataAngles[1][num])
-        for i in range(0, len(dataAngles[1][num])):
-            dataAngles[0][num][0][i] = dataAngles[0][num][0][i]*ratio
-            array0 = []
-    array1 = []
-    NumOfVids = len(vidpath1)
-    # For multiple vids
-    for num in range(NumOfVids):
-        array0 = np.append(array0, dataAngles[0][num][0])
-        array1 = np.append(array1, dataAngles[1][num])
+            ratio = 40/len(dataAngles[1][num])
+            for i in range(0, len(dataAngles[1][num])):
+                dataAngles[0][num][0][i] = dataAngles[0][num][0][i]*ratio
+                array0 = []
+        array1 = []
+        NumOfVids = len(vidpath1)
+        # For multiple vids
+        for num in range(NumOfVids):
+            array0 = np.append(array0, dataAngles[0][num][0])
+            array1 = np.append(array1, dataAngles[1][num])
 
-    combinedFirstVidTo2darray = list(zip(array0, array1))  # HERE for first vid only
+        combinedFirstVidTo2darray = list(zip(array0, array1))  # HERE for first vid only
 
-    df = pd.DataFrame(combinedFirstVidTo2darray, columns=["Frames", 'Angles'])
+        df = pd.DataFrame(combinedFirstVidTo2darray, columns=["Frames", 'Angles'])
+    elif choice == 1:
+        print(vidPath)
+        dataAngles = [[[],[]],[[],[]],[[],[]]]
+        dataAngles[0][0].append(list(range(0, len(dataAngles[1][0]))))#first vid
+
+        for num in range(1,(len(vidpath1))):
+            dataAngles[0].append([])
+            dataAngles[1].append([])
+            dataAngles[2].append([])
+        #    switch=num#switch to 2nd vid
+            ratio=0
+            switch+=1
+            #print(num)
+            
+            
+            main(vidpath1[num], choice,switch,dataAngles,recommendation,observation)
+
+
+            dataAngles[0][num].append(list(range(0, len(dataAngles[1][num]))))
+
+            #print(len(dataAngles[1][num]))
+            
+            ratio = 40/len(dataAngles[1][num])
+                
+            #print(len(dataAngles[1][0]),"............",len(dataAngles[1][num]),'....RATIO',ratio)
+            
+            for i in range (0, len(dataAngles[1][num])):
+                dataAngles[0][num][0][i] = dataAngles[0][num][0][i]*ratio
+
+
+        array0=[]
+        array1=[]
+        array2=[]
+        NumOfVids=len(vidpath1)
+        #For multiple vids
+        for num in range(NumOfVids):
+            array0=np.append(array0, dataAngles[0][num][0])
+            array1=np.append(array1, dataAngles[1][num])
+            array2=np.append(array2, dataAngles[2][num])
+
+
+
+        combinedFirstVidTo2darray=list(zip(array0, array1, array2))#HERE for first vid only 
+        numArray=np.array(combinedFirstVidTo2darray, dtype=object)
+
+        df = pd.DataFrame(combinedFirstVidTo2darray,columns=["Frames",'Angles','Angles-Hip'])#.stack().rename_axis(['x', 'y'])#.reset_index(name='val')
 
     # Convert to csv
+    print(df)
     df.to_csv("./UserVid.csv")
 
 #Returns score of form given some data
