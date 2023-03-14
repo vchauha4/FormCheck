@@ -77,7 +77,7 @@ def predict():
         return str(json.dumps(response))
     else:
         return (
-            "Please send valid POST request, find proper format at https://github.com"
+            "Please send valid POST request, find proper format in README"
         )
 
 

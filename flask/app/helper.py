@@ -93,13 +93,13 @@ def predictForm(choice):
 
     # Load different modules dependent on choice
     if choice == 0:
-        rf = joblib.load("./model1.joblib")
+        rf = joblib.load("../models/model1.joblib")
         wrongarrayX = dfv2[["Frames", "Angles"]].values
     elif choice == 2:
-        rf = joblib.load("./model1.joblib")  # Sub in correct model
+        rf = joblib.load("../models/model1.joblib")  # Sub in correct model
         wrongarrayX = dfv2[["Frames", "Angles"]].values
     else:
-        rf = joblib.load("./rfmodel-squat.joblib")
+        rf = joblib.load("../models/rfmodel-squat.joblib")
         wrongarrayX = dfv2[["Frames", "Angles", "Angles-Hip"]].values
 
     # Predict based on the values

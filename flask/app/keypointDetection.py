@@ -53,7 +53,7 @@ def pad(image, width, height):
 def movenet(input_image, choice):
 
     # This is done here to remove a common error we received
-    interpreter = tf.lite.Interpreter(model_path="./thunder_model.tflite")
+    interpreter = tf.lite.Interpreter(model_path="../models/thunder_model.tflite")
     interpreter.allocate_tensors()
     """Runs detection on an input image.
     Args:
