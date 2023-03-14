@@ -1,5 +1,4 @@
 import numpy as np
-import cv2
 
 max_left = 0
 max_right = 0
