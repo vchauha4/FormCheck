@@ -62,7 +62,7 @@ Postman is the easiest way to test the backend server. Requests with exerciseTyp
 <p>
 
 Make sure you're in the `flask` folder.
-Build the image with `docker build . `
+Build the image with `docker build . ` or to get a specific tag `docker build -t REPO:VERSION .`
 
 Run `docker images` to determine the tag of the newest image.
 
