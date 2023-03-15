@@ -17,6 +17,7 @@ RUN pip install -r requirements.txt
 # copy every content from the local file to the image
 COPY . /app
 
-RUN cd app
+WORKDIR application
+
 
 ENTRYPOINT ["flask","run","--host=0.0.0.0"]
