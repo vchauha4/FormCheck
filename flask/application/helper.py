@@ -96,7 +96,7 @@ def predictForm(choice):
         rf = joblib.load("../models/model1.joblib")
         wrongarrayX = dfv2[["Frames", "Angles"]].values
     elif choice == 2:
-        rf = joblib.load("../models/model1.joblib")  # Sub in correct model
+        rf = joblib.load("../models/curl.joblib")  # Sub in correct model
         wrongarrayX = dfv2[["Frames", "Angles"]].values
     else:
         rf = joblib.load("../models/rfmodel-squat.joblib")
