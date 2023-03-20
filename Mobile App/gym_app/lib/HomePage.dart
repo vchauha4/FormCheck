@@ -752,7 +752,7 @@ customAppBar(context) {
                             child: CircleAvatar(
                               radius: 30,
                               backgroundImage: AssetImage(
-                                'Assets/ProfilePic.png',
+                                'Assets/caesar.png',
                               ),
                             ),
                           ),
@@ -766,7 +766,7 @@ customAppBar(context) {
                 width: size.width * 0.015,
               ),
               Text(
-                'JoJo Chad',
+                'Caesar',
                 style: TextStyle(
                     fontSize: 23,
                     color: Color(0xFFfffcfc),

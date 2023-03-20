@@ -70,7 +70,7 @@ class _ProfileState extends State<Profile> {
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('Assets/cyber9.jpeg'),//FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')),
+                        image: AssetImage('Assets/caesar.png'),//FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -115,7 +115,7 @@ class _ProfileState extends State<Profile> {
 
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
-                      child: Text("JoJo Chad",
+                      child: Text("Caesar",
                         style: TextStyle(fontSize: 34,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,),
@@ -153,8 +153,8 @@ class _ProfileState extends State<Profile> {
                       debugPrint('Card tapped.');
                     },
                     child: SizedBox(
-                      width: 190,
-                      height: 165,
+                      width: 183,
+                      height: 175,
                       child: Column(
                         children: [
                           Row(
@@ -162,7 +162,7 @@ class _ProfileState extends State<Profile> {
                               Padding(
                                 padding: EdgeInsets.fromLTRB(5, 5, 0,5),
                                 child: Text('Total Recordings:',
-                                  style: TextStyle(fontSize: 22,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
+                                  style: TextStyle(fontSize: 20,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
                             ],
@@ -243,8 +243,8 @@ class _ProfileState extends State<Profile> {
                       debugPrint('Card tapped.');
                     },
                     child: SizedBox(
-                      width: 186.5,
-                      height: 165,
+                      width: 183,
+                      height: 175,
                       child: Column(
                         children: [
                           Row(
@@ -252,7 +252,7 @@ class _ProfileState extends State<Profile> {
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 5, 0,5),
                                 child: Text('Average Score:',
-                                  style: TextStyle(fontSize: 22,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
+                                  style: TextStyle(fontSize: 21,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
                             ],

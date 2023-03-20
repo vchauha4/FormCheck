@@ -137,11 +137,11 @@ class _ExercisesState extends State<Exercises> {
 
               child: Column(
                 children: [
-                  SizedBox(height: 7,),
+                  SizedBox(height: 20,),
 
                   Row(
                     children: [
-                      SizedBox(width: 15,),
+                      SizedBox(width: 12,),
                       Text(
                           'Instructions:',
                           style: TextStyle(fontSize: 25,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
@@ -152,9 +152,9 @@ class _ExercisesState extends State<Exercises> {
                   ),
                   Row(
                     children: [
-                      SizedBox(width: 15,),
+                      SizedBox(width: 12,),
                       Text(
-                          'Position the camera to record the video as',
+                          'Position the camera to record the',
                           style: TextStyle(fontSize: 20,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.start,
@@ -165,9 +165,9 @@ class _ExercisesState extends State<Exercises> {
                   ),
                   Row(
                     children: [
-                      SizedBox(width: 15,),
+                      SizedBox(width: 12,),
                       Text(
-                          'shown in the example below.',
+                          'video as shown in the example below.',
                           style: TextStyle(fontSize: 20,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                           overflow: TextOverflow.ellipsis,
                           textAlign: TextAlign.start
@@ -175,7 +175,7 @@ class _ExercisesState extends State<Exercises> {
                     ],
                   ),
 
-                  SizedBox(height: 30,),
+                  SizedBox(height: 50,),
 
                   Center(
                     child: Container(
@@ -193,7 +193,7 @@ class _ExercisesState extends State<Exercises> {
                     ),
                   ),//Size
 
-                  SizedBox(height: 20,),
+                  SizedBox(height: 55 ,),
                   ElevatedButton.icon(
                     icon: Icon(Icons.camera_alt,
                     size: 27
