@@ -8,7 +8,7 @@ from helper import predictForm, toCSV
 CURRENT_PATH = os.getcwd() + "/"
 
 # Enforce video extensions, obviously add to this, but it is good to enforce
-ALLOWED_EXTENSIONS = {"mp4"}
+ALLOWED_EXTENSIONS = {"mp4","mov"}
 
 # Used to ensure only filetypes we want are uploaded
 # This ensures consistency in service

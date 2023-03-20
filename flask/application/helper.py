@@ -42,8 +42,8 @@ def toCSV(vidPath, choice, recommendation, observation):
 
         df = pd.DataFrame(combinedFirstVidTo2darray, columns=["Frames", "Angles"])
     elif choice == 1:
-        print(vidPath)
-        dataAngles = [[[], []], [[], []], [[], []]]
+        
+        dataAngles = [[[],[]],[[],[]],[[],[]]]
         dataAngles[0][0].append(list(range(0, len(dataAngles[1][0]))))  # first vid
 
         for num in range(1, (len(vidpath1))):
@@ -76,7 +76,7 @@ def toCSV(vidPath, choice, recommendation, observation):
         combinedFirstVidTo2darray = list(
             zip(array0, array1, array2)
         ) 
-
+        
         df = pd.DataFrame(
             combinedFirstVidTo2darray, columns=["Frames", "Angles", "Angles-Hip"]
         ) 
@@ -104,12 +104,15 @@ def predictForm(choice):
 
     # Predict based on the values
     pred_y_data = rf.predict(wrongarrayX)
+
     sort_y_data = sorted(pred_y_data)
-    mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
+
 
     if choice == 2 or choice == 0:
+        mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
         score = (((1 - mean_val_of_highest_ten)) * 100) + 10
     else:
+        mean_val_of_highest_ten = np.mean(sort_y_data[:-10])
         score = ((1 - mean_val_of_highest_ten)) * 100
         if score > 60:
             score += 10

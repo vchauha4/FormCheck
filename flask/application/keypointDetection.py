@@ -20,6 +20,8 @@ def get_inference(image, choice):
     # Run model inference.
     kps = returnedObject[0][0]
 
+
+
     return kps[0], returnedObject[1]
 
 def pad(image, width, height):
@@ -135,8 +137,9 @@ def main(vidPath, choice, switch, dataAngles, recommendation, observation):
             dataAngles[1][switch].append(test)
             bench_recs(curr_kp)
         elif choice == 1:
+
             dataAngles[1][switch].append(test[0])
-            dataAngles[2][switch].append(test[0])
+            dataAngles[2][switch].append(test[1])
             squat_recs(curr_kp)
         elif choice == 2:
             dataAngles[1][switch].append(test)
