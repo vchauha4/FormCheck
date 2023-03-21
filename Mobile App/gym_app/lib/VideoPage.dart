@@ -2,6 +2,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gallery_saver/gallery_saver.dart';
 import 'package:image_gallery_saver/image_gallery_saver.dart';
 import 'package:path_provider/path_provider.dart';
@@ -22,6 +23,13 @@ class VideoPage extends StatefulWidget {
 
 class _VideoPageState extends State<VideoPage> {
   late VideoPlayerController videoPlayerController;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
+
+  }
 
   @override
   void dispose() {
@@ -31,7 +39,10 @@ class _VideoPageState extends State<VideoPage> {
 
   Future _initVideoPlayer() async {
 
-    videoPlayerController = VideoPlayerController.file(File(widget.filePath));
+
+    //videoPlayerController = VideoPlayerController.file(File(widget.filePath));
+    videoPlayerController = VideoPlayerController.file(File("/storage/emulated/0/Android/data/com.example.gym_app/Files/curlVid.mp4"));
+
     await videoPlayerController.initialize();
     await videoPlayerController.setLooping(false);
 
@@ -78,7 +89,7 @@ class _VideoPageState extends State<VideoPage> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => FeedBack(number: widget.number,), //CameraPage(number: widget.number,),// make list take a parameter for the folder
+                  builder: (context) => FeedBack(number: widget.number, path: basename(widget.filePath),), //CameraPage(number: widget.number,),// make list take a parameter for the folder
                 ),
               );
 

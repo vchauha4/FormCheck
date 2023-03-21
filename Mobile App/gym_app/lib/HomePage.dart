@@ -766,7 +766,7 @@ customAppBar(context) {
                 width: size.width * 0.015,
               ),
               Text(
-                'JoJo Chad',
+                'Hisham',
                 style: TextStyle(
                     fontSize: 23,
                     color: Color(0xFFfffcfc),

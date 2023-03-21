@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gym_app/HomePage.dart';
 import 'package:hive/hive.dart';
@@ -13,8 +14,9 @@ import 'package:http/http.dart' as http;
 
 class FeedBack extends StatefulWidget {
   final int number;
+  final String path;
 
-  const FeedBack({Key? key, required this.number}) : super(key: key);
+  const FeedBack({Key? key, required this.number, required this.path}) : super(key: key);
 
   @override
   State<FeedBack> createState() => _FeedBackState();
@@ -26,7 +28,7 @@ class _FeedBackState extends State<FeedBack> {
 @override
   void initState() {
 
-  updateStats();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     super.initState();
   }
@@ -41,7 +43,7 @@ class _FeedBackState extends State<FeedBack> {
   late List<String>  feedBackListServer;
   double scoreFromServer=0;
 
-  Future<void> updateStats() async {
+  Future<void> updateStats(double score) async {
   int number=widget.number;
 
   final myBox= Boxes.getData();
@@ -85,7 +87,7 @@ class _FeedBackState extends State<FeedBack> {
       benchScore=0;
     }
 
-    benchScore=(benchScore!+1.8)!;
+    benchScore=(benchScore!+score)!;
 
 
     double? squatScore=myData?.SquatsScore;
@@ -150,7 +152,7 @@ class _FeedBackState extends State<FeedBack> {
     if(squatScore==null){
       squatScore=0;
     }
-    squatScore=(squatScore!+3.3)!;
+    squatScore=(squatScore!+score)!;
 
 
     double? deadLiftScore=myData?.DeadliftScore;
@@ -211,7 +213,7 @@ class _FeedBackState extends State<FeedBack> {
       deadLiftScore=0;
     }
 
-    deadLiftScore=(deadLiftScore!+5.2)!;
+    deadLiftScore=(deadLiftScore!+score)!;
 
 
     int? curentBench=myData?.BenchCount;
@@ -267,16 +269,20 @@ class _FeedBackState extends State<FeedBack> {
 Future<String> getData() async {
 
     if(widget.number==0) {
+
       print("GOING IN THE GET REQUEST");
 
       // http.Response res = await http.get(Uri.parse("https://www.google.com"));
 
       var request = http.MultipartRequest(
-          'POST', Uri.parse('http://3.14.246.24/predict?exerciseType=0'));
+          'POST', Uri.parse('http://3.133.117.78/predict?exerciseType=0'));
 
+      final fileName = widget.path; // will return you the name of your file like REC9113430186235591563.mp4
+
+      print("HERE IS THE FILENAME 280"+fileName);
 
       request.files.add(await http.MultipartFile.fromPath('videos',
-          '/storage/emulated/0/Android/data/com.example.gym_app/Files/BenchPressVId2.mp4'));
+          '/storage/emulated/0/Android/data/com.example.gym_app/Files/$fileName'));
 
 
       http.StreamedResponse response = await request.send();
@@ -322,11 +328,14 @@ Future<String> getData() async {
         // http.Response res = await http.get(Uri.parse("https://www.google.com"));
 
         var request = http.MultipartRequest(
-            'POST', Uri.parse('http://3.14.246.24/predict?exerciseType=0'));
+            'POST', Uri.parse('http://3.133.117.78/predict?exerciseType=1'));
 
+
+        final fileName = widget.path; // will return you the name of your file like REC9113430186235591563.mp4
+        print("HERE IS THE FILENAME 280"+fileName);
 
         request.files.add(await http.MultipartFile.fromPath('videos',
-            '/storage/emulated/0/Android/data/com.example.gym_app/Files/BenchPressVId2.mp4'));
+            '/storage/emulated/0/Android/data/com.example.gym_app/Files/$fileName'));
 
 
         http.StreamedResponse response = await request.send();
@@ -372,12 +381,15 @@ Future<String> getData() async {
       // http.Response res = await http.get(Uri.parse("https://www.google.com"));
 
       var request = http.MultipartRequest(
-          'POST', Uri.parse('http://3.14.246.24/predict?exerciseType=0'));
+          'POST', Uri.parse('http://3.133.117.78/predict?exerciseType=2'));
 
+
+      final fileName = widget.path; // will return you the name of your file like REC9113430186235591563.mp4
+      print("HERE IS THE FILENAME 280"+fileName);
 
       request.files.add(await http.MultipartFile.fromPath('videos',
-          '/storage/emulated/0/Android/data/com.example.gym_app/Files/BenchPressVId2.mp4'));
-
+          '/storage/emulated/0/Android/data/com.example.gym_app/Files/curlVid.mp4'));
+//          '/storage/emulated/0/Android/data/com.example.gym_app/Files/$fileName'));
 
       http.StreamedResponse response = await request.send();
 
@@ -470,7 +482,7 @@ Future<String> getData() async {
           print(snapshot.toString());
           print(snapshot.connectionState);
 
-          if(snapshot.hasData){
+          if(snapshot.hasData ){
             // final body2 = json.encode(snapshot.data);
             //
             // final body = json.decode(body2);
@@ -479,11 +491,14 @@ Future<String> getData() async {
             // print(score);
 
             const jsonString ='{"recc_arra":["OBSERVATION: Youre lifting the bar all the way to the top! Good job! 178.7223807860361 , 178.7223807860361","RECCOMENDATION: Try to move youre arms further apart - They might be too close together"],"score":"28.139841895111342"}';
+            print(snapshot.data.toString());
 
+
+            
             final data = jsonDecode(snapshot.data);
             print(data['recc_arra']); // foo
             print(data['score']); // 1
-          double score=  double.parse(data['score'].toString());
+            double score=  double.parse(data['score'].toString());
 
             print(snapshot.data.toString());
             // print(user.runtimeType);
@@ -497,6 +512,17 @@ Future<String> getData() async {
 
 
             print(snapshot.connectionState);
+            String formOp='';
+            if(score>60){
+              formOp='Based on your above score, your form is considered to be optimal:';
+            }
+            else
+              {
+                formOp='Based on your above score, your form is considered to not be optimal:';
+
+              }
+
+            updateStats(score);
 
             return NestedScrollView(
                 headerSliverBuilder: (BuildContext context,
@@ -594,7 +620,7 @@ Future<String> getData() async {
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           child: Flexible(
                             child: Text(
-                                'Based on your above score, your form is considered to be optimal:',
+                                formOp,
                                 textAlign: TextAlign.start, style: TextStyle(
                                 fontSize: 24,
                                 color: Colors.white,
@@ -668,7 +694,11 @@ Future<String> getData() async {
 
             );
           }
+
+
           else{
+
+
             return Container(
                 child: Center(
                     child: SpinKitFadingCube(
@@ -694,7 +724,10 @@ Future<String> getData() async {
           print(snapshot.hasData);
 
 
-        }
+
+
+
+        },
 
 
       ),
