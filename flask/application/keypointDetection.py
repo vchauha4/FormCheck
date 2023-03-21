@@ -80,18 +80,17 @@ def movenet(input_image, choice):
     # Return certain angles based on user exercise
     # 0 - bench, 1 for squat
     if choice == 0:
-        data = [
-            calculate_angle(
-                keypoints_with_scores[0][0][16],
-                keypoints_with_scores[0][0][14],
-                keypoints_with_scores[0][0][12],
-            )
-            + calculate_angle(
-                keypoints_with_scores[0][0][15],
-                keypoints_with_scores[0][0][13],
-                keypoints_with_scores[0][0][11],
-            )
-        ]
+        data = (calculate_angle(
+            keypoints_with_scores[0][0][5],
+            keypoints_with_scores[0][0][7],
+            keypoints_with_scores[0][0][9],
+        ) + calculate_angle(
+            keypoints_with_scores[0][0][6],
+            keypoints_with_scores[0][0][8],
+            keypoints_with_scores[0][0][10],
+        ))
+           
+        
     elif choice == 1:
         data = [
             calculate_angle(

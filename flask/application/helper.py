@@ -108,7 +108,10 @@ def predictForm(choice):
     sort_y_data = sorted(pred_y_data)
 
 
-    if choice == 2 or choice == 0:
+    if choice == 0:
+        mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
+        score = (((1 - mean_val_of_highest_ten)) * 100) + 10
+    elif choice == 2:
         mean_val_of_highest_ten = np.mean(sort_y_data[-10:])
         score = (((1 - mean_val_of_highest_ten)) * 100) + 10
     else:
