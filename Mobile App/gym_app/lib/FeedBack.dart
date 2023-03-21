@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:gym_app/HomePage.dart';
 import 'package:hive/hive.dart';
@@ -27,6 +28,7 @@ class _FeedBackState extends State<FeedBack> {
 @override
   void initState() {
 
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
 
     super.initState();
   }
@@ -273,7 +275,7 @@ Future<String> getData() async {
       // http.Response res = await http.get(Uri.parse("https://www.google.com"));
 
       var request = http.MultipartRequest(
-          'POST', Uri.parse('http://18.223.237.234/predict?exerciseType=0'));
+          'POST', Uri.parse('http://3.133.117.78/predict?exerciseType=0'));
 
       final fileName = widget.path; // will return you the name of your file like REC9113430186235591563.mp4
 
@@ -326,7 +328,7 @@ Future<String> getData() async {
         // http.Response res = await http.get(Uri.parse("https://www.google.com"));
 
         var request = http.MultipartRequest(
-            'POST', Uri.parse('http://18.223.237.234/predict?exerciseType=1'));
+            'POST', Uri.parse('http://3.133.117.78/predict?exerciseType=1'));
 
 
         final fileName = widget.path; // will return you the name of your file like REC9113430186235591563.mp4
@@ -379,15 +381,15 @@ Future<String> getData() async {
       // http.Response res = await http.get(Uri.parse("https://www.google.com"));
 
       var request = http.MultipartRequest(
-          'POST', Uri.parse('http://18.223.237.234/predict?exerciseType=2'));
+          'POST', Uri.parse('http://3.133.117.78/predict?exerciseType=2'));
 
 
       final fileName = widget.path; // will return you the name of your file like REC9113430186235591563.mp4
       print("HERE IS THE FILENAME 280"+fileName);
 
       request.files.add(await http.MultipartFile.fromPath('videos',
-          '/storage/emulated/0/Android/data/com.example.gym_app/Files/$fileName'));
-
+          '/storage/emulated/0/Android/data/com.example.gym_app/Files/curlVid.mp4'));
+//          '/storage/emulated/0/Android/data/com.example.gym_app/Files/$fileName'));
 
       http.StreamedResponse response = await request.send();
 
@@ -480,7 +482,7 @@ Future<String> getData() async {
           print(snapshot.toString());
           print(snapshot.connectionState);
 
-          if(snapshot.hasData){
+          if(snapshot.hasData ){
             // final body2 = json.encode(snapshot.data);
             //
             // final body = json.decode(body2);
@@ -489,11 +491,14 @@ Future<String> getData() async {
             // print(score);
 
             const jsonString ='{"recc_arra":["OBSERVATION: Youre lifting the bar all the way to the top! Good job! 178.7223807860361 , 178.7223807860361","RECCOMENDATION: Try to move youre arms further apart - They might be too close together"],"score":"28.139841895111342"}';
+            print(snapshot.data.toString());
 
+
+            
             final data = jsonDecode(snapshot.data);
             print(data['recc_arra']); // foo
             print(data['score']); // 1
-          double score=  double.parse(data['score'].toString());
+            double score=  double.parse(data['score'].toString());
 
             print(snapshot.data.toString());
             // print(user.runtimeType);
@@ -689,7 +694,11 @@ Future<String> getData() async {
 
             );
           }
+
+
           else{
+
+
             return Container(
                 child: Center(
                     child: SpinKitFadingCube(
@@ -715,7 +724,10 @@ Future<String> getData() async {
           print(snapshot.hasData);
 
 
-        }
+
+
+
+        },
 
 
       ),

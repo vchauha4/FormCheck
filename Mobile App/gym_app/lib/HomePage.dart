@@ -752,7 +752,7 @@ customAppBar(context) {
                             child: CircleAvatar(
                               radius: 30,
                               backgroundImage: AssetImage(
-                                'Assets/caesar.png',
+                                'Assets/ProfilePic.png',
                               ),
                             ),
                           ),
@@ -766,7 +766,7 @@ customAppBar(context) {
                 width: size.width * 0.015,
               ),
               Text(
-                'Caesar',
+                'Hisham',
                 style: TextStyle(
                     fontSize: 23,
                     color: Color(0xFFfffcfc),

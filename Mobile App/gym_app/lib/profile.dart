@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:multi_split_view/multi_split_view.dart';
 import 'Boxes.dart';
 import 'HomePage.dart';
+import 'modelClassStats.dart';
 import 'my_icons_icons.dart';
 import 'dart:io';
 
@@ -20,6 +21,7 @@ class _ProfileState extends State<Profile> {
 
   @override
   Widget build(BuildContext context) {
+
     final myData= myBox.get('user');
     int? benchCount=myData?.BenchCount ??= 0;
     int? squatCount=myData?.SquatsCount??= 0;
@@ -70,7 +72,7 @@ class _ProfileState extends State<Profile> {
                   child: Container(
                     decoration: BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('Assets/caesar.png'),//FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')),
+                        image: AssetImage('Assets/ofp.jpg'),//FileImage(File('/storage/emulated/0/AudioFiles/itachi.jpg')),
                         fit: BoxFit.cover,
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(15.0)),
@@ -115,8 +117,8 @@ class _ProfileState extends State<Profile> {
 
                     Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 0, 20),
-                      child: Text("Caesar",
-                        style: TextStyle(fontSize: 34,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
+                      child: Text("Hisham",
+                        style: TextStyle(fontSize: 34,color: Colors.black,fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                         overflow: TextOverflow.ellipsis,
                         textAlign: TextAlign.start,),
                     ),
@@ -261,7 +263,7 @@ class _ProfileState extends State<Profile> {
 
                           Padding(
                             padding: EdgeInsets.fromLTRB(0, 2, 0,5),
-                            child: Text((((benchScore!+deadLiftScore!+squatScore!)/3).toStringAsPrecision(3)).toString(),
+                            child: Text((((benchScore!+deadLiftScore!+squatScore!)/(benchCount!+deadLiftCount!+squatCount!)).toStringAsPrecision(3)).toString(),
                               style: TextStyle(fontSize: 36,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                             ),
                           ),
@@ -271,7 +273,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Bench Press: '+benchScore.toStringAsPrecision(3).toString(),
+                                child: Text('\u2022 Bench Press: '+(benchScore/benchCount).toStringAsPrecision(3).toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
@@ -282,7 +284,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Squats: '+deadLiftScore.toStringAsPrecision(3).toString(),
+                                child: Text('\u2022 Squats: '+(deadLiftScore/deadLiftCount).toStringAsPrecision(3).toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),
@@ -293,7 +295,7 @@ class _ProfileState extends State<Profile> {
                             children: [
                               Padding(
                                 padding: EdgeInsets.fromLTRB(10, 2, 0,5),
-                                child: Text('\u2022 Curl: '+squatScore.toStringAsPrecision(3).toString(),
+                                child: Text('\u2022 Curl: '+(squatScore/squatCount).toStringAsPrecision(3).toString(),
                                   style: TextStyle(fontSize: 18,color: Color(0xFFfffcfc),fontWeight: FontWeight.bold,fontFamily:'Proxima Nova'),
                                 ),
                               ),

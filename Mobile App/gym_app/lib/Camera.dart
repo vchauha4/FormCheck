@@ -1,6 +1,7 @@
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'VideoPage.dart';
 
@@ -33,12 +34,16 @@ class _CameraPageState extends State<CameraPage> {
   }
 
   void initCamera() async{
+    WidgetsFlutterBinding.ensureInitialized();
+    SystemChrome.setPreferredOrientations([DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight]);
 
     final cameras = await availableCameras();
     final front = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.back);
+    final landscape = cameras.firstWhere((camera) => camera.lensDirection == CameraLensDirection.back);
 
     cameraController = CameraController(front, ResolutionPreset.max);
     await cameraController.initialize();
+    cameraController.unlockCaptureOrientation();
     setState(() => isLoading = false);
 
 
