@@ -282,7 +282,7 @@ Future<String> getData() async {
       print("HERE IS THE FILENAME 280"+fileName);
 
       request.files.add(await http.MultipartFile.fromPath('videos',
-          '/storage/emulated/0/Android/data/com.example.gym_app/Files/$fileName'));
+          '/storage/emulated/0/Android/data/com.example.gym_app/Files/bench.mp4'));
 
 
       http.StreamedResponse response = await request.send();
@@ -493,9 +493,15 @@ Future<String> getData() async {
             const jsonString ='{"recc_arra":["OBSERVATION: Youre lifting the bar all the way to the top! Good job! 178.7223807860361 , 178.7223807860361","RECCOMENDATION: Try to move youre arms further apart - They might be too close together"],"score":"28.139841895111342"}';
             print(snapshot.data.toString());
 
+            var data;
+            try{
+               data = jsonDecode(snapshot.data);
 
-            
-            final data = jsonDecode(snapshot.data);
+            }
+            catch(e){
+              print(e);
+
+            }
             print(data['recc_arra']); // foo
             print(data['score']); // 1
             double score=  double.parse(data['score'].toString());
@@ -548,7 +554,7 @@ Future<String> getData() async {
 
 
                       title: Center(child: Text(
-                        text[widget.number].toString() + "Feedback",
+                        text[widget.number].toString() + "Feedback   ",
                         textAlign: TextAlign.justify,
                         style: TextStyle(fontSize: 28,
                             color: Colors.white,
