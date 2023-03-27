@@ -20,6 +20,8 @@ def get_inference(image, choice):
     # Run model inference.
     kps = returnedObject[0][0]
 
+
+
     return kps[0], returnedObject[1]
 
 def pad(image, width, height):
@@ -78,18 +80,17 @@ def movenet(input_image, choice):
     # Return certain angles based on user exercise
     # 0 - bench, 1 for squat
     if choice == 0:
-        data = [
-            calculate_angle(
-                keypoints_with_scores[0][0][16],
-                keypoints_with_scores[0][0][14],
-                keypoints_with_scores[0][0][12],
-            )
-            + calculate_angle(
-                keypoints_with_scores[0][0][15],
-                keypoints_with_scores[0][0][13],
-                keypoints_with_scores[0][0][11],
-            )
-        ]
+        data = (calculate_angle(
+            keypoints_with_scores[0][0][5],
+            keypoints_with_scores[0][0][7],
+            keypoints_with_scores[0][0][9],
+        ) + calculate_angle(
+            keypoints_with_scores[0][0][6],
+            keypoints_with_scores[0][0][8],
+            keypoints_with_scores[0][0][10],
+        ))
+           
+        
     elif choice == 1:
         data = [
             calculate_angle(
@@ -135,8 +136,9 @@ def main(vidPath, choice, switch, dataAngles, recommendation, observation):
             dataAngles[1][switch].append(test)
             bench_recs(curr_kp)
         elif choice == 1:
+
             dataAngles[1][switch].append(test[0])
-            dataAngles[2][switch].append(test[0])
+            dataAngles[2][switch].append(test[1])
             squat_recs(curr_kp)
         elif choice == 2:
             dataAngles[1][switch].append(test)
