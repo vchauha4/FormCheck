@@ -41,7 +41,9 @@ class _VideoPageState extends State<VideoPage> {
 
 
     //videoPlayerController = VideoPlayerController.file(File(widget.filePath));
-    videoPlayerController = VideoPlayerController.file(File("/storage/emulated/0/Android/data/com.example.gym_app/Files/bench.mp4"));
+    // videoPlayerController = VideoPlayerController.file(File("/storage/emulated/0/Android/data/com.example.gym_app/Files/bench.mp4"));
+    videoPlayerController = VideoPlayerController.file(File(widget.filePath));
+    // videoPlayerController = VideoPlayerController.file(File("/storage/emulated/0/Android/data/com.example.gym_app/Files/curlVid.mp4"));
 
     await videoPlayerController.initialize();
     await videoPlayerController.setLooping(false);
