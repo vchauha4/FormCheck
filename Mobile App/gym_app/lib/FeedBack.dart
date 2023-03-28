@@ -482,7 +482,7 @@ Future<String> getData() async {
           print(snapshot.toString());
           print(snapshot.connectionState);
 
-          if(snapshot.hasData&&(snapshot.data.toString().length>2)){
+          if(snapshot.hasData){
             // final body2 = json.encode(snapshot.data);
             //
             // final body = json.decode(body2);
@@ -495,42 +495,43 @@ Future<String> getData() async {
             print("NOTHING:::::: "+snapshot.data.toString());
 
             var data;
-            List<String>  feedBackList=['Try to move youre arms further apart - They might be too close together'];
+            List<String>  feedBackList=[''];
             String formOp='';
+            double score=0;
 
             try{
                data = jsonDecode(snapshot.data);
+               print(data['recc_arra']); // foo
+               print(data['score']); // 1
+               score=  double.parse(data['score'].toString());
 
+               // print(user.runtimeType);
+               // print(user['score']);
+               // print(user[1]);
+
+               print('Line 401');
+               print(data['recc_arra'].toString().split(',')); // 1
+
+               feedBackList=data['recc_arra'].toString().split(',');
+
+
+               print(snapshot.connectionState);
+               if(score>60){
+                 formOp='Based on your above score, your form is considered to be optimal:';
+               }
+               else
+               {
+                 formOp='Based on your above score, your form is considered to not be optimal:';
+
+               }
+
+               updateStats(score);
             }
             catch(e){
               print(e);
 
             }
-            print(data['recc_arra']); // foo
-            print(data['score']); // 1
-            double score=  double.parse(data['score'].toString());
 
-            // print(user.runtimeType);
-            // print(user['score']);
-            // print(user[1]);
-
-            print('Line 401');
-            print(data['recc_arra'].toString().split(',')); // 1
-
-            feedBackList=data['recc_arra'].toString().split(',');
-
-
-            print(snapshot.connectionState);
-            if(score>60){
-              formOp='Based on your above score, your form is considered to be optimal:';
-            }
-            else
-            {
-              formOp='Based on your above score, your form is considered to not be optimal:';
-
-            }
-
-            updateStats(score);
 
 
             return NestedScrollView(
